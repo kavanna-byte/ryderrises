@@ -80,11 +80,11 @@
   if (!hasGsap) { document.body.classList.remove("is-loading"); return; }
 
   /* ---------- the logo: live light + 3D tilt ---------- */
-  const logo = $("#logo3d");
+  const logo = $("#logo3d"), heroLoops = [];          // endless tweens, paused while the hero is off screen
   if (logo && !reduced) {
     const aura = $(".logo3d__aura", logo), core = $(".logo3d__core", logo);
-    gsap.to(aura, { opacity: 0.55, scale: 1.04, duration: 2.6, ease: "sine.inOut", yoyo: true, repeat: -1 });
-    gsap.to(core, { scale: 1.08, duration: 3.4, ease: "sine.inOut", yoyo: true, repeat: -1, transformOrigin: "50% 50%" });
+    heroLoops.push(gsap.to(aura, { opacity: 0.55, scale: 1.04, duration: 2.6, ease: "sine.inOut", yoyo: true, repeat: -1 }));
+    heroLoops.push(gsap.to(core, { scale: 1.08, duration: 3.4, ease: "sine.inOut", yoyo: true, repeat: -1, transformOrigin: "50% 50%" }));
     // real electricity: arcs crawl the silhouette, tendrils shoot off it, a strike from the sky now and then
     if (typeof Electric !== "undefined") Electric($("#arcs"), $(".logo3d__img", logo), { pad: 0.22, color: [176, 112, 255], hot: [252, 248, 255], rate: 1.5, onStrike() {
       logo.classList.add("is-strike"); setTimeout(() => logo.classList.remove("is-strike"), 170);
@@ -94,12 +94,14 @@
       $(".hero").addEventListener("mousemove", e => { ry((e.clientX / innerWidth - 0.5) * 16); rx(-(e.clientY / innerHeight - 0.5) * 10); });
       $(".hero").addEventListener("mouseleave", () => { rx(0); ry(0); });
     } else {
-      gsap.to(logo, { rotationY: 6, rotationX: -3, duration: 4, ease: "sine.inOut", yoyo: true, repeat: -1 });
+      heroLoops.push(gsap.to(logo, { rotationY: 6, rotationX: -3, duration: 4, ease: "sine.inOut", yoyo: true, repeat: -1 }));
     }
   }
 
   /* ---------- hero: pause the loop off-screen, parallax out ---------- */
-  ScrollTrigger.create({ trigger: ".hero", start: "top top", end: "bottom top", onLeave: () => heroVideo.pause(), onEnterBack: () => heroVideo.play().catch(() => {}) });
+  ScrollTrigger.create({ trigger: ".hero", start: "top top", end: "bottom top",
+    onLeave: () => { heroVideo.pause(); heroLoops.forEach(t => t.pause()); },
+    onEnterBack: () => { heroVideo.play().catch(() => {}); heroLoops.forEach(t => t.resume()); } });
   if (!reduced) gsap.to(".hero__content", { yPercent: -16, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
 
   /* ---------- nav ---------- */
@@ -251,7 +253,14 @@
     const size = () => { const r = btn.getBoundingClientRect(); w = c.width = Math.max(1, r.width * 2); h = c.height = Math.max(1, r.height * 2); };
     size(); addEventListener("resize", size); btn._size = size;
     btn._boost = v => (boost = Math.min(1, boost + v));
-    (function plasma() {
+    // the plasma only animates while its button is on screen and the tab is visible (an off-screen loop still costs a phone its CPU)
+    let onScreen = true, looping = false;
+    const wake = () => { if (!looping && onScreen && !document.hidden) { looping = true; requestAnimationFrame(plasma); } };
+    if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; wake(); }).observe(btn);
+    document.addEventListener("visibilitychange", wake);
+    wake();
+    function plasma() {
+      if (!onScreen || document.hidden) { looping = false; return; }
       if (root.dataset.btn !== "1" && w) {
         t += 0.016 + boost * 0.05; boost *= 0.94;
         x.globalCompositeOperation = "source-over"; x.fillStyle = "#1a0838"; x.fillRect(0, 0, w, h);
@@ -263,7 +272,7 @@
         }
       }
       requestAnimationFrame(plasma);
-    })();
+    }
     // the badge leans toward the pointer (4, 1+4)
     if (fine) {
       btn.addEventListener("mousemove", e => { if (root.dataset.btn === "1") return; const r = btn.getBoundingClientRect(); btn.style.translate = `${(e.clientX - r.left - r.width / 2) * 0.12}px ${(e.clientY - r.top - r.height / 2) * 0.18}px`; btn._boost(0.04); });

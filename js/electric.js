@@ -85,9 +85,15 @@
         stroke(bl.path, bl.w * 1.2, rgba(hot, a), 6);
       }
       ctx.shadowBlur = 0; ctx.globalCompositeOperation = "source-over";
-      raf = requestAnimationFrame(frame);
+      raf = onScreen && !document.hidden ? requestAnimationFrame(frame) : 0;
     }
-    function start() { sample(); resize(); raf = requestAnimationFrame(frame); }
+    // only draw while the canvas is on screen and the tab is visible: an off-screen loop still costs a phone its CPU
+    let onScreen = true;
+    const run = () => { if (alive && onScreen && !document.hidden && !raf) { t0 = performance.now(); raf = requestAnimationFrame(frame); } };
+    const halt = () => { cancelAnimationFrame(raf); raf = 0; };
+    if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; onScreen ? run() : halt(); }).observe(canvas);
+    document.addEventListener("visibilitychange", () => (document.hidden ? halt() : run()));
+    function start() { sample(); resize(); run(); }
     img.complete && img.naturalWidth ? start() : img.addEventListener("load", start, { once: true });
     addEventListener("resize", resize);
     return { strike: () => spawn("strike"), stop() { alive = false; cancelAnimationFrame(raf); }, burst(n = 6) { for (let i = 0; i < n; i++) spawn(i % 2 ? "branch" : "crawl"); } };
