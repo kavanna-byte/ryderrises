@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://ryderrises.com/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <image:image><image:loc>https://ryderrises.com/assets/og-v3.jpg</image:loc></image:image>
+    <image:image><image:loc>https://ryderrises.com/assets/poster-3200.webp</image:loc></image:image>
+    <video:video>
+      <video:thumbnail_loc>https://ryderrises.com/assets/og-v3.jpg</video:thumbnail_loc>
+      <video:title>PAW Patrol: Ryder Rises — fan parody trailer</video:title>
+      <video:description>Adventure Bay has fallen. Watch PAW Patrol: Ryder Rises, the dark R-rated fan parody trailer written and directed by Yoni Levy. Unsanctioned. Coming never.</video:description>
+      <video:content_loc>https://ryderrises.com/assets/trailer-v46.mp4</video:content_loc>
+      <video:duration>119</video:duration>
+      <video:publication_date>2026-12-01T08:00:00+02:00</video:publication_date>
+      <video:family_friendly>no</video:family_friendly>
+    </video:video>
+  </url>
+</urlset>
