@@ -249,6 +249,7 @@
   root.dataset.btn = "14"; // Storm Tag: the toy badge with the storm alive inside it
   // plasma inside the capsule (4) and the badge (1+4)
   $$(".cta").forEach(btn => {
+    const rose = btn.classList.contains("cta--rose"), base = rose ? "#3a0a32" : "#1a0838", hue = rose ? ["255,160,220", "255,72,176"] : ["201,162,255", "120,60,255"]; // the share tag burns pink
     const c = $(".cta__plasma", btn), x = c.getContext("2d"); let t = Math.random() * 10, boost = 0, w = 0, h = 0;
     const size = () => { const r = btn.getBoundingClientRect(); w = c.width = Math.max(1, r.width * 2); h = c.height = Math.max(1, r.height * 2); };
     size(); addEventListener("resize", size); btn._size = size;
@@ -263,11 +264,11 @@
       if (!onScreen || document.hidden) { looping = false; return; }
       if (root.dataset.btn !== "1" && w) {
         t += 0.016 + boost * 0.05; boost *= 0.94;
-        x.globalCompositeOperation = "source-over"; x.fillStyle = "#1a0838"; x.fillRect(0, 0, w, h);
+        x.globalCompositeOperation = "source-over"; x.fillStyle = base; x.fillRect(0, 0, w, h);
         x.globalCompositeOperation = "lighter";
         for (let i = 0; i < 7; i++) {
           const px = w * (0.5 + 0.45 * Math.sin(t * (0.6 + i * 0.13) + i * 1.7)), py = h * (0.5 + 0.4 * Math.cos(t * (0.8 + i * 0.11) + i)), r = h * (0.55 + 0.25 * Math.sin(t + i));
-          const g = x.createRadialGradient(px, py, 0, px, py, r); g.addColorStop(0, `rgba(${i % 2 ? "201,162,255" : "120,60,255"},${0.55 + boost * 0.35})`); g.addColorStop(1, "rgba(0,0,0,0)");
+          const g = x.createRadialGradient(px, py, 0, px, py, r); g.addColorStop(0, `rgba(${hue[i % 2 ? 0 : 1]},${0.55 + boost * 0.35})`); g.addColorStop(1, "rgba(0,0,0,0)");
           x.fillStyle = g; x.fillRect(0, 0, w, h);
         }
       }
@@ -324,10 +325,12 @@
   async function share(btn) {
     const url = location.origin + location.pathname + "?utm_source=share&utm_medium=visitor";
     let method = "copy";
-    if (!fine && navigator.share) { // phones: the system share sheet
+    const touch = navigator.maxTouchPoints > 0 || matchMedia("(pointer: coarse)").matches; // phones and tablets, an iPad with a trackpad included
+    if (touch && navigator.share) { // the system share sheet (iPhone / Android); desktops copy the link
       try { await navigator.share({ title: "Ryder Rises", text: "PAW Patrol: Ryder Rises. An unsanctioned fan parody trailer.", url }); method = "native"; }
-      catch (e) { return; } // the visitor closed the sheet
-    } else if (!(await copyText(url))) return;
+      catch (e) { if (e && e.name === "AbortError") return; } // closed the sheet: done; any other refusal falls back to copying
+    }
+    if (method === "copy" && !(await copyText(url))) return;
     report("share", { method, content_type: "trailer", placement: btn.dataset.place || "" });
     if (method !== "copy") return;
     const label = $(".cta__label", btn), was = label && label.textContent;

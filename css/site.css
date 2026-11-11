@@ -726,3 +726,16 @@ body { caret-color: var(--violet-hot); }
 
 /* v5.4 — the longer closing line breaks into even lines */
 .close__lede { max-width: 32em; text-wrap: balance; }
+
+
+/* v5.7 — the close carries a second Storm Tag: same size, burning pink, it shares the trailer */
+.close__ctas { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 22px 34px; }
+[data-btn="14"] .cta--rose { background: #2c0828; text-shadow: 0 3px 0 #5c0f4a;
+  box-shadow: inset 0 3px 0 rgba(255,255,255,.55), inset 0 -6px 0 rgba(110,8,80,.55), 0 0 0 4px #2a0b26, 0 0 0 7px #f3b6e4, 0 10px 0 7px #1e0619, 0 18px 30px rgba(0,0,0,.6); }
+[data-btn="14"] .cta--rose:hover { box-shadow: inset 0 3px 0 rgba(255,255,255,.55), inset 0 -6px 0 rgba(110,8,80,.55), 0 0 0 4px #2a0b26, 0 0 0 7px #ffdcf3, 0 10px 0 7px #1e0619, 0 0 60px 10px rgba(255,110,200,.6); }
+[data-btn="14"] .cta--rose .cta__icon { box-shadow: inset 0 -3px 0 #f6cbe9; }
+[data-btn="14"] .cta--rose .cta__icon svg { fill: #c2259a; width: 56%; height: 56%; }
+[data-btn="14"] .cta--rose .cta__boop { border-color: #ffdcf3; }
+[data-btn="14"] .cta--rose { background: #3a0a32; }
+.close__ctas .cta { min-width: 236px; }
+@media (max-width: 640px) { .close__ctas { row-gap: 44px; } }
