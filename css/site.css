@@ -1,4 +1,4 @@
-/* RYDER RISES — campaign site v2.
+/* RYDER RISES: campaign site v2.
    Everything is made of the film's own materials: gunmetal, rivets, violet light, storm.
    Type: Big Shoulders 900 cast in metal (the RYDER RISES block letters), Jost (the poster's Futura tagline),
    Barlow Condensed (the poster's DIN billing block). Gold = Humdinger's eyes, used sparingly.
@@ -339,7 +339,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 
 /* =====================================================================
-   v3 — condensed type, no metal. Electric logo. Buttons 1 / 4 / 1+4.
+   v3: condensed type, no metal. Electric logo. Buttons 1 / 4 / 1+4.
    ===================================================================== */
 :root { --title: "Archivo", "Arial Narrow", sans-serif; --din: "Archivo", "Arial Narrow", sans-serif; }
 body { font: 400 18px/1.55 "Archivo", sans-serif; font-stretch: 100%; letter-spacing: 0; }
@@ -390,7 +390,7 @@ body { font: 400 18px/1.55 "Archivo", sans-serif; font-stretch: 100%; letter-spa
 .cta.is-boop .cta__boop { animation: boop .6s ease-out; }
 @keyframes boop { from { opacity: 1; transform: scale(.95); } to { opacity: 0; transform: scale(1.35); } }
 
-/* 1 · PUP TAG — the badge as a toy: chunky bevel, rim, bounce, boop */
+/* 1 · PUP TAG: the badge as a toy: chunky bevel, rim, bounce, boop */
 [data-btn="1"] .cta, [data-btn="14"] .cta {
   padding: 18px 34px 18px 20px; font: 400 26px/1 "Lilita One", sans-serif; letter-spacing: .03em; text-shadow: 0 3px 0 #2a0f63;
   border-radius: 22px 22px 34px 34px / 18px 18px 40px 40px;
@@ -404,13 +404,13 @@ body { font: 400 18px/1.55 "Archivo", sans-serif; font-stretch: 100%; letter-spa
 [data-btn="1"] .cta:hover .cta__icon svg, [data-btn="14"] .cta:hover .cta__icon svg { transform: rotate(-18deg) scale(1.15); }
 [data-btn="1"] .cta:active, [data-btn="14"] .cta:active { transform: translateY(3px) scale(.95, .9); transition-duration: .08s; }
 
-/* 4 · STORM CORE — a capsule of live plasma that leans toward you; a click calls the lightning */
+/* 4 · STORM CORE: a capsule of live plasma that leans toward you; a click calls the lightning */
 [data-btn="4"] .cta { height: 76px; padding: 0 44px; border-radius: 50px; overflow: hidden; font: 700 17px/1 "Archivo"; font-stretch: 112%; letter-spacing: .24em; text-transform: uppercase; text-shadow: 0 0 12px #000, 0 0 2px #000;
   box-shadow: 0 0 0 1px rgba(217,196,255,.5), 0 0 40px rgba(155,92,255,.45), inset 0 1px 0 rgba(255,255,255,.4); transition: box-shadow .3s; }
 [data-btn="4"] .cta:hover { box-shadow: 0 0 0 1px #fff, 0 0 70px rgba(155,92,255,.9), inset 0 1px 0 rgba(255,255,255,.6); }
 [data-btn="4"] .cta__icon { display: none; }
 
-/* 1+4 · STORM TAG — the toy badge, with the storm alive inside it */
+/* 1+4 · STORM TAG: the toy badge, with the storm alive inside it */
 [data-btn="14"] .cta { overflow: hidden; background: #1a0838; }
 [data-btn="14"] .cta::before { content: ""; position: absolute; inset: 0 0 52% 0; border-radius: inherit; background: linear-gradient(180deg, rgba(255,255,255,.38), rgba(255,255,255,0)); pointer-events: none; }
 [data-btn="14"] .cta:hover { box-shadow: inset 0 3px 0 rgba(255,255,255,.55), inset 0 -6px 0 rgba(40,8,110,.55), 0 0 0 4px #1b0d38, 0 0 0 7px #e2d4ff, 0 10px 0 7px #12082a, 0 0 60px 10px rgba(155,92,255,.65); }
@@ -428,7 +428,7 @@ body { font: 400 18px/1.55 "Archivo", sans-serif; font-stretch: 100%; letter-spa
 
 
 /* =====================================================================
-   v3.1 — no yellow anywhere, a brighter, cleaner glow, the cut-off button fixed
+   v3.1: no yellow anywhere, a brighter, cleaner glow, the cut-off button fixed
    ===================================================================== */
 :root { --gold: #c9a2ff; --spark: #b98cff; }
 .skip { background: var(--violet); color: #fff; }
@@ -447,13 +447,13 @@ body { font: 400 18px/1.55 "Archivo", sans-serif; font-stretch: 100%; letter-spa
 .logo3d.is-strike .logo3d__rim { filter: blur(1.5px) brightness(2.4); }
 .logo3d.is-strike .logo3d__img { filter: drop-shadow(0 34px 40px rgba(0,0,0,.7)) saturate(1.5) contrast(1.15) brightness(1.5); }
 
-/* v3.2 — the credits roll, no closing name */
+/* v3.2: the credits roll, no closing name */
 .credits__list li:last-child .credits__role { color: var(--violet-hot); }
 .credits__pre { z-index: 2; }
 
 
 /* =====================================================================
-   v3.3 — polish: air, rhythm, one spacing scale
+   v3.3: polish: air, rhythm, one spacing scale
    tight inside a group, generous between groups, more air above a heading than below
    ===================================================================== */
 :root { --s1: 8px; --s2: 16px; --s3: 24px; --s4: 32px; --s5: 48px; --s6: 64px; --s7: 96px; --s8: 136px; --s9: 192px;
@@ -545,7 +545,7 @@ body { caret-color: var(--violet-hot); }
 
 
 /* =====================================================================
-   v3.7 — "Ten months in the making": a composition, and a slate that is an object
+   v3.7: "Ten months in the making": a composition, and a slate that is an object
    ===================================================================== */
 .making-intro { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.25fr); gap: clamp(48px, 7vw, 128px); align-items: center; margin-bottom: var(--section); }
 .making-intro__copy .metal { margin-bottom: var(--s4); }
@@ -576,7 +576,7 @@ body { caret-color: var(--violet-hot); }
 
 
 /* =====================================================================
-   v3.8 — the close: a final card over the last frame of the trailer
+   v3.8: the close: a final card over the last frame of the trailer
    ===================================================================== */
 .close { position: relative; min-height: 100svh; display: grid; place-items: center; overflow: hidden; padding: var(--section) var(--gutter); text-align: center; isolation: isolate; }
 .close__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; filter: saturate(.85) brightness(.32); transform: scale(1.04); }
@@ -597,7 +597,7 @@ body { caret-color: var(--violet-hot); }
 
 
 /* =====================================================================
-   v4.0 — credits aligned on the centre line; the film strip is driven by the visitor
+   v4.0: credits aligned on the centre line; the film strip is driven by the visitor
    ===================================================================== */
 .credits__list li { align-items: center; }
 .credits__role { line-height: 1; padding-top: .08em; }
@@ -620,7 +620,7 @@ body { caret-color: var(--violet-hot); }
 .frame img { -webkit-user-drag: none; user-select: none; }
 @media (max-width: 640px) { .strip-nav { display: none; } }
 
-/* v4.1 — the zoom is clipped by its own frame, so captions are never covered */
+/* v4.1: the zoom is clipped by its own frame, so captions are never covered */
 .stills__track li { overflow: visible; }
 .still__clip { display: block; overflow: hidden; aspect-ratio: 1920 / 844; background: var(--ink-2); }
 .still__clip img { display: block; width: 100%; height: 100%; object-fit: cover; }
@@ -633,7 +633,7 @@ body { caret-color: var(--violet-hot); }
 
 
 /* =====================================================================
-   v4.5 — Two frames. One move.
+   v4.5: Two frames. One move.
    ===================================================================== */
 .moves { margin-bottom: var(--section); }
 .moves__head { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 120px); align-items: end; margin-bottom: var(--s7); }
@@ -658,21 +658,21 @@ body { caret-color: var(--violet-hot); }
 }
 .move img, .move video { height: auto; }
 
-/* v4.8 — the credits start right under "presents" and roll as one block */
+/* v4.8: the credits start right under "presents" and roll as one block */
 .credits__stage { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: clamp(36px, 5vh, 56px); padding-top: 22vh; }
 .credits__pre { position: static; margin: 0; }
-/* v4.9 — no flashes: the strike only touches the badge, softly */
+/* v4.9: no flashes: the strike only touches the badge, softly */
 .logo3d.is-strike .logo3d__img { filter: drop-shadow(0 34px 40px rgba(0,0,0,.7)) saturate(1.4) contrast(1.12) brightness(1.15); }
 .logo3d.is-strike .logo3d__rim { filter: blur(2px) brightness(1.7); }
 .logo3d.is-strike .logo3d__aura { filter: blur(calc(var(--w) * .022)) brightness(1.25) saturate(1.5) !important; }
 
-/* v5.0 — the seed: the two Sora attempts open the strip, a little off-colour on purpose */
+/* v5.0: the seed: the two Sora attempts open the strip, a little off-colour on purpose */
 .frame--seed img { filter: saturate(.75) contrast(.95); }
 .frame--seed time { color: var(--ash); }
 
 
 /* =====================================================================
-   v5.1 — the close: the title carries the logo's electricity
+   v5.1: the close: the title carries the logo's electricity
    ===================================================================== */
 .visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .ztitle { position: relative; width: min(86vw, 860px); aspect-ratio: 1800 / 760; margin: 0 0 var(--s4); }
@@ -686,7 +686,7 @@ body { caret-color: var(--violet-hot); }
 
 
 /* =====================================================================
-   v5.3 — the trailer ends on a card, a way to pass it on, a quieter way to write
+   v5.3: the trailer ends on a card, a way to pass it on, a quieter way to write
    ===================================================================== */
 .is-return .band { display: none; }
 
@@ -724,11 +724,11 @@ body { caret-color: var(--violet-hot); }
 .close__copied { display: block; min-height: 1.5em; font: 600 12px/1.5 "Archivo"; letter-spacing: .24em; text-transform: uppercase; color: var(--violet-hot); }
 .close__bio { margin-top: var(--s6); }
 
-/* v5.4 — the longer closing line breaks into even lines */
+/* v5.4: the longer closing line breaks into even lines */
 .close__lede { max-width: 32em; text-wrap: balance; }
 
 
-/* v5.7 — the close carries a second Storm Tag: same size, burning pink, it shares the trailer */
+/* v5.7: the close carries a second Storm Tag: same size, burning pink, it shares the trailer */
 .close__ctas { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 22px 34px; }
 [data-btn="14"] .cta--rose { background: #2c0828; text-shadow: 0 3px 0 #5c0f4a;
   box-shadow: inset 0 3px 0 rgba(255,255,255,.55), inset 0 -6px 0 rgba(110,8,80,.55), 0 0 0 4px #2a0b26, 0 0 0 7px #f3b6e4, 0 10px 0 7px #1e0619, 0 18px 30px rgba(0,0,0,.6); }
@@ -740,6 +740,6 @@ body { caret-color: var(--violet-hot); }
 .close__ctas .cta { min-width: 236px; }
 @media (max-width: 640px) { .close__ctas { row-gap: 44px; } }
 
-/* v5.9 — Humblin is a real studio now: the footer links to its YouTube channel */
+/* v5.9: Humblin is a real studio now: the footer links to its YouTube channel */
 .foot__link { color: var(--bone); text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; transition: background-size .3s, color .3s; }
 .foot__link:hover { color: #c9a2ff; background-size: 0 1px; }

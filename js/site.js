@@ -1,4 +1,4 @@
-/* RYDER RISES — campaign site v2 behaviour.
+/* RYDER RISES: campaign site v2 behaviour.
    House rule (same as the trailer edit): no dissolves. Things cut, wipe, slide or flash. */
 (() => {
   const $ = (s, r = document) => r.querySelector(s);
@@ -177,7 +177,7 @@
   }
   if (!reduced) gsap.from(fig, { yPercent: 12, rotate: -2, ease: "none", scrollTrigger: { trigger: ".poster", start: "top bottom", end: "center center", scrub: true } });
 
-  /* ---------- the slate: the clapper closes on scroll — CLAP + flash ---------- */
+  /* ---------- the slate: the clapper closes on scroll: CLAP + flash ---------- */
   const slate = $("#slate");
   if (!reduced) {
     const stick = $(".slate__stick", slate);

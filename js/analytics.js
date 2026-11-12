@@ -1,9 +1,9 @@
-/* RYDER RISES — analytics (Google Analytics 4).
+/* RYDER RISES: analytics (Google Analytics 4).
    One switch: paste the Measurement ID into GA_ID. While it is empty, nothing loads and nothing is sent.
    No advertising cookies, no Google Signals, nothing personal in any event.
    Visitors from the EEA, the UK and Switzerland are measured without cookies (consent mode, analytics denied). */
 (() => {
-  const GA_ID = "G-8V4HG3KMMC"; // "G-XXXXXXXXXX" — GA4 › Admin › Data streams › Web › Measurement ID
+  const GA_ID = "G-8V4HG3KMMC"; // "G-XXXXXXXXXX": GA4 › Admin › Data streams › Web › Measurement ID
 
   const LOCAL = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || location.protocol === "file:";
   const OPTED_OUT = navigator.globalPrivacyControl === true; // the visitor's browser asked not to be tracked
