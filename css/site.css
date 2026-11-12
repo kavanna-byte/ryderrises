@@ -739,3 +739,7 @@ body { caret-color: var(--violet-hot); }
 [data-btn="14"] .cta--rose { background: #3a0a32; }
 .close__ctas .cta { min-width: 236px; }
 @media (max-width: 640px) { .close__ctas { row-gap: 44px; } }
+
+/* v5.9 — Humblin is a real studio now: the footer links to its YouTube channel */
+.foot__link { color: var(--bone); text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; transition: background-size .3s, color .3s; }
+.foot__link:hover { color: #c9a2ff; background-size: 0 1px; }
