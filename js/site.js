@@ -175,6 +175,28 @@
       lens.style.backgroundPosition = `${-(x * Z - 120)}px ${-(y * Z - 120)}px`;
     });
   }
+  else {
+    // touch: press and hold the poster, then drag; the lens floats above the finger so the finger never hides it
+    let hi = false, on = false, timer = 0; const Z = 2.6, L = 180;
+    const place = t => {
+      const r = fig.getBoundingClientRect(), x = t.clientX - r.left, y = t.clientY - r.top, top = y - L - 28;
+      lens.style.width = lens.style.height = L + "px";
+      lens.style.left = x - L / 2 + "px"; lens.style.top = (top >= 0 ? top : y + 28) + "px";
+      lens.style.backgroundSize = `${r.width * Z}px ${r.height * Z}px`;
+      lens.style.backgroundPosition = `${-(x * Z - L / 2)}px ${-(y * Z - L / 2)}px`;
+    };
+    fig.addEventListener("touchstart", e => {
+      const t = e.touches[0]; clearTimeout(timer);
+      timer = setTimeout(() => {
+        if (!hi) { lens.style.backgroundImage = `url(${pimg.dataset.hi})`; hi = true; }
+        on = true; place(t); fig.classList.add("is-zoom");
+      }, 220);
+    }, { passive: true });
+    fig.addEventListener("touchmove", e => { if (!on) { clearTimeout(timer); return; } e.preventDefault(); place(e.touches[0]); }, { passive: false });
+    const end = () => { clearTimeout(timer); on = false; fig.classList.remove("is-zoom"); };
+    fig.addEventListener("touchend", end); fig.addEventListener("touchcancel", end);
+    fig.addEventListener("contextmenu", e => e.preventDefault()); // no "save image" menu on a long press
+  }
   if (!reduced) gsap.from(fig, { yPercent: 12, rotate: -2, ease: "none", scrollTrigger: { trigger: ".poster", start: "top bottom", end: "center center", scrub: true } });
 
   /* ---------- the slate: the clapper closes on scroll: CLAP + flash ---------- */

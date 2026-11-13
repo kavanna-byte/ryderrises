@@ -743,3 +743,20 @@ body { caret-color: var(--violet-hot); }
 /* v5.9: Humblin is a real studio now: the footer links to its YouTube channel */
 .foot__link { color: var(--bone); text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; transition: background-size .3s, color .3s; }
 .foot__link:hover { color: #c9a2ff; background-size: 0 1px; }
+
+/* v6.0: phones: the two-line tagline breathes; the poster loupe works on touch (press and hold) */
+@media (max-width: 640px) {
+  .tagline { line-height: 2.1; }
+  .tagline .cut { display: block; margin-right: -.5em; }
+}
+.poster__hint { display: none; }
+@media (hover: none), (pointer: coarse) {
+  .poster__hint { display: block; margin: 0 0 var(--s4); font: 500 12px/1.6 var(--din); letter-spacing: .18em; text-transform: uppercase; color: var(--ash); }
+  .poster__fig, .poster__fig img { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+}
+@media (max-width: 640px) {
+  .hero__credit .hc { display: block; }
+  .hero__credit .hc-dot { display: none; }
+  .hero__credit { letter-spacing: .16em; }
+}
+@media (hover: none), (pointer: coarse) { .poster__hint { margin: calc(var(--s3) * -1) 0 var(--s5); text-align: center; } }
