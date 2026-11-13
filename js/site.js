@@ -189,7 +189,7 @@
       const t = e.touches[0]; clearTimeout(timer);
       timer = setTimeout(() => {
         if (!hi) { lens.style.backgroundImage = `url(${pimg.dataset.hi})`; hi = true; }
-        on = true; place(t); fig.classList.add("is-zoom");
+        on = true; place(t); fig.classList.add("is-zoom", "is-used"); // the hint pill retires after the first zoom
       }, 220);
     }, { passive: true });
     fig.addEventListener("touchmove", e => { if (!on) { clearTimeout(timer); return; } e.preventDefault(); place(e.touches[0]); }, { passive: false });
