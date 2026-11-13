@@ -780,3 +780,53 @@ body { caret-color: var(--violet-hot); }
 /* v6.4: the trailer section holds a real, visible <video> (poster first, nothing preloaded) so search engines see the film on its page; a click still opens the theatre */
 .trailer__frame > video { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.1); filter: saturate(.9) brightness(.72); transition: transform 1.4s var(--ease), filter .6s; pointer-events: none; }
 .trailer__frame:hover > video { transform: scale(1.03); filter: saturate(1) brightness(.9); }
+
+
+/* =====================================================================
+   v6.5: phones get their own moves (desktop untouched)
+   3 a trailer button in the thumb zone · 4 the poster edge to edge · 5 turn the phone · 6 the badge follows the tilt
+   ===================================================================== */
+/* 3 */
+.dock { position: fixed; left: 0; right: 0; bottom: calc(22px + env(safe-area-inset-bottom)); z-index: 65; display: none; justify-content: center; pointer-events: none; transform: translateY(170%); transition: transform .5s cubic-bezier(.34,1.56,.64,1); }
+@media (hover: none), (pointer: coarse) { .dock { display: flex; } }
+.dock.is-on { transform: none; }
+.dock .cta { pointer-events: auto; }
+[data-btn="14"] .dock .cta { font-size: 19px; padding: 11px 22px 11px 11px; gap: 10px;
+  box-shadow: inset 0 3px 0 rgba(255,255,255,.55), inset 0 -6px 0 rgba(40,8,110,.55), 0 0 0 4px #1b0d38, 0 0 0 7px #c9b2ff, 0 10px 0 7px #12082a, 0 18px 40px rgba(0,0,0,.75), 0 0 40px rgba(155,92,255,.45); }
+[data-btn="14"] .dock .cta__icon { width: 28px; height: 28px; }
+.dock__time { margin-left: 4px; font: 600 12px/1 "Archivo"; letter-spacing: .12em; opacity: .75; text-shadow: none; }
+
+/* 4 */
+.pv { position: fixed; inset: 0; z-index: 72; background: #050409; overflow: hidden; touch-action: none; }
+.pv[hidden] { display: none; }
+.pv__stage { position: absolute; inset: 0; display: grid; place-items: center; }
+.pv__img { max-width: 100%; max-height: 100%; transform-origin: 0 0; will-change: transform; user-select: none; -webkit-user-drag: none; }
+.pv__close, .pv__chip, .pv__hint, .tilt-wake, .rot__up { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 0; border-radius: 999px;
+  font: 600 12px/1 "Archivo"; letter-spacing: .2em; text-transform: uppercase; text-decoration: none; color: #fff; white-space: nowrap;
+  background: rgba(20,14,34,.62); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: inset 0 0 0 1px rgba(201,162,255,.35); cursor: pointer; }
+.pv__close { position: absolute; top: calc(14px + env(safe-area-inset-top)); right: 14px; width: 44px; padding: 0; font-size: 22px; letter-spacing: 0; }
+.pv__zoom { position: absolute; top: calc(28px + env(safe-area-inset-top)); left: 18px; font: 600 11px/1 "Archivo"; letter-spacing: .24em; color: rgba(255,255,255,.6); }
+.pv__hint { position: absolute; left: 50%; bottom: calc(94px + env(safe-area-inset-bottom)); transform: translateX(-50%); pointer-events: none; transition: opacity .3s; }
+.pv__hint.is-gone { opacity: 0; }
+.pv__bar { position: absolute; left: 0; right: 0; bottom: calc(26px + env(safe-area-inset-bottom)); display: flex; justify-content: center; gap: 10px; }
+@media (hover: none), (pointer: coarse) { .poster__fig { cursor: zoom-in; } }
+
+/* 5 */
+.rot { position: absolute; inset: 0; z-index: 2; display: grid; place-content: center; justify-items: center; gap: 24px; padding: 24px; text-align: center;
+  background: radial-gradient(ellipse 80% 55% at 50% 42%, rgba(60,20,120,.5), transparent 75%), #05040a; }
+.rot[hidden] { display: none; }
+.rot__phone { position: relative; width: 64px; height: 112px; border-radius: 14px; border: 3px solid #e2c8ff; box-shadow: 0 0 24px rgba(155,92,255,.8), inset 0 0 18px rgba(155,92,255,.4); animation: rotTurn 2.4s cubic-bezier(.65,0,.35,1) infinite; }
+.rot__phone::after { content: ""; position: absolute; left: 50%; bottom: 7px; width: 16px; height: 3px; margin-left: -8px; border-radius: 3px; background: #e2c8ff; }
+.rot__phone i { position: absolute; inset: 14px 8px; border-radius: 4px; background: url(../assets/stills/03-07b-to-bay-960.webp) center / cover; opacity: .9; }
+@keyframes rotTurn { 0%, 20% { transform: rotate(0); } 50%, 80% { transform: rotate(-90deg); } 100% { transform: rotate(0); } }
+@media (prefers-reduced-motion: reduce) { .rot__phone { animation: none; transform: rotate(-90deg); } }
+.rot__t { margin: 0; font: 700 44px/.92 "Archivo"; font-stretch: 62%; text-transform: uppercase; color: #fff; text-shadow: 0 0 30px rgba(155,92,255,.6); }
+.rot__s { margin: 0; max-width: 20em; font: 400 15px/1.55 "Archivo"; color: #cfc8de; }
+
+/* 6 */
+.logo3d__glint { position: absolute; inset: 0; z-index: 4; pointer-events: none; mix-blend-mode: screen; opacity: 0; transform: translateZ(2px);
+  background: linear-gradient(105deg, transparent 35%, rgba(255,245,255,.55) 48%, transparent 60%); background-size: 260% 100%; background-position: 50% 0;
+  -webkit-mask: url(../assets/logo3d-b.webp) center / 100% 100% no-repeat; mask: url(../assets/logo3d-b.webp) center / 100% 100% no-repeat; }
+@media (hover: none), (pointer: coarse) { .logo3d__glint { opacity: 1; } }
+.tilt-wake { position: absolute; left: 50%; bottom: calc(76px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 3; }
+.tilt-wake[hidden] { display: none; }

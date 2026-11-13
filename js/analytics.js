@@ -42,7 +42,7 @@
 
   /* ---------- the trailer: opened from where, and how much of it was really watched ---------- */
   document.querySelectorAll(".js-play").forEach(b => b.addEventListener("click", () =>
-    track("trailer_open", { placement: b.closest(".nav") ? "nav" : b.closest(".hero") ? "hero" : "trailer_section" })));
+    track("trailer_open", { placement: b.closest(".dock") ? "dock" : b.closest(".nav") ? "nav" : b.closest(".hero") ? "hero" : "trailer_section" })));
 
   const tv = document.getElementById("trailerVideo"), theatre = document.getElementById("theatre");
   if (tv) {

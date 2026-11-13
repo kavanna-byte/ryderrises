@@ -94,7 +94,27 @@
       $(".hero").addEventListener("mousemove", e => { ry((e.clientX / innerWidth - 0.5) * 16); rx(-(e.clientY / innerHeight - 0.5) * 10); });
       $(".hero").addEventListener("mouseleave", () => { rx(0); ry(0); });
     } else {
-      heroLoops.push(gsap.to(logo, { rotationY: 6, rotationX: -3, duration: 4, ease: "sine.inOut", yoyo: true, repeat: -1 }));
+      const sway = gsap.to(logo, { rotationY: 6, rotationX: -3, duration: 4, ease: "sine.inOut", yoyo: true, repeat: -1 });
+      heroLoops.push(sway);
+      // phones: tilting the phone turns the metal badge and slides a glint across it
+      const rx = gsap.quickTo(logo, "rotationX", { duration: 0.6, ease: "power3" }), ry = gsap.quickTo(logo, "rotationY", { duration: 0.6, ease: "power3" });
+      const glint = $(".logo3d__glint", logo), wakeBtn = $("#tiltWake"); let base = null, live = false;
+      const onTilt = e => {
+        if (e.beta == null || e.gamma == null) return;
+        if (!live) { live = true; sway.kill(); heroLoops.splice(heroLoops.indexOf(sway), 1); if (wakeBtn) wakeBtn.hidden = true; }
+        if (!base) base = { b: e.beta, g: e.gamma };
+        const gx = Math.max(-1, Math.min(1, (e.gamma - base.g) / 25)), gy = Math.max(-1, Math.min(1, (e.beta - base.b) / 25));
+        ry(gx * 22); rx(-gy * 14); glint.style.backgroundPosition = `${50 - gx * 60}% 0`;
+      };
+      const D = window.DeviceOrientationEvent;
+      if (D) {
+        addEventListener("deviceorientation", onTilt); // Android: readings simply start arriving
+        // iPhone sends nothing until the visitor allows it, and it may only be asked after a tap: offer the chip only then
+        if (typeof D.requestPermission === "function" && wakeBtn) setTimeout(() => {
+          if (live) return; wakeBtn.hidden = false;
+          wakeBtn.addEventListener("click", () => D.requestPermission().then(() => (wakeBtn.hidden = true)).catch(() => (wakeBtn.hidden = true)), { once: true });
+        }, 1500);
+      }
     }
   }
 
@@ -176,26 +196,39 @@
     });
   }
   else {
-    // touch: press and hold the poster, then drag; the lens floats above the finger so the finger never hides it
-    let hi = false, on = false, timer = 0; const Z = 2.6, L = 180;
-    const place = t => {
-      const r = fig.getBoundingClientRect(), x = t.clientX - r.left, y = t.clientY - r.top, top = y - L - 28;
-      lens.style.width = lens.style.height = L + "px";
-      lens.style.left = x - L / 2 + "px"; lens.style.top = (top >= 0 ? top : y + 28) + "px";
-      lens.style.backgroundSize = `${r.width * Z}px ${r.height * Z}px`;
-      lens.style.backgroundPosition = `${-(x * Z - L / 2)}px ${-(y * Z - L / 2)}px`;
+    // touch: a tap opens the one-sheet edge to edge; pinch or double-tap to zoom, drag to move around
+    const pv = $("#pv"), stage = $("#pvStage"), im = $("#pvImg"), zl = $("#pvZoom"), hint = $("#pvHint");
+    let s = 1, x = 0, y = 0, pinch = null, drag = null, lastTap = 0; const pts = new Map();
+    const apply = () => { im.style.transform = `translate(${x}px, ${y}px) scale(${s})`; zl.textContent = (Math.round(s * 10) / 10) + "\u00d7"; };
+    const clamp = () => {
+      if (s <= 1) { s = 1; x = 0; y = 0; return; }
+      const w = im.offsetWidth * s, hh = im.offsetHeight * s, W = innerWidth, H = innerHeight, ox = im.offsetLeft, oy = im.offsetTop;
+      x = w > W ? Math.min(-ox, Math.max(W - ox - w, x)) : (W - w) / 2 - ox;
+      y = hh > H ? Math.min(-oy, Math.max(H - oy - hh, y)) : (H - hh) / 2 - oy;
     };
-    fig.addEventListener("touchstart", e => {
-      const t = e.touches[0]; clearTimeout(timer);
-      timer = setTimeout(() => {
-        if (!hi) { lens.style.backgroundImage = `url(${pimg.dataset.hi})`; hi = true; }
-        on = true; place(t); fig.classList.add("is-zoom", "is-used"); // the hint pill retires after the first zoom
-      }, 220);
-    }, { passive: true });
-    fig.addEventListener("touchmove", e => { if (!on) { clearTimeout(timer); return; } e.preventDefault(); place(e.touches[0]); }, { passive: false });
-    const end = () => { clearTimeout(timer); on = false; fig.classList.remove("is-zoom"); };
-    fig.addEventListener("touchend", end); fig.addEventListener("touchcancel", end);
-    fig.addEventListener("contextmenu", e => e.preventDefault()); // no "save image" menu on a long press
+    const zoomAt = (ns, cx, cy) => { ns = Math.min(5, Math.max(1, ns)); const ix = (cx - im.offsetLeft - x) / s, iy = (cy - im.offsetTop - y) / s; s = ns; x = cx - im.offsetLeft - ix * s; y = cy - im.offsetTop - iy * s; clamp(); apply(); };
+    const openPv = () => {
+      if (!im.src) im.src = pimg.dataset.hi;
+      pv.hidden = false; dockOff(true); lenis && lenis.stop(); document.body.style.overflow = "hidden";
+      s = 1; x = y = 0; apply(); hint.classList.remove("is-gone"); setTimeout(() => hint.classList.add("is-gone"), 2600);
+      fig.classList.add("is-used"); report("poster_view");
+    };
+    const closePv = () => { pv.hidden = true; dockOff(false); lenis && lenis.start(); document.body.style.overflow = ""; };
+    fig.addEventListener("click", openPv);
+    $("#pvClose").addEventListener("click", closePv);
+    stage.addEventListener("pointerdown", e => {
+      stage.setPointerCapture(e.pointerId); pts.set(e.pointerId, [e.clientX, e.clientY]);
+      if (pts.size === 2) { const [p, q] = [...pts.values()]; pinch = { d: Math.hypot(p[0] - q[0], p[1] - q[1]), s }; drag = null; }
+      else drag = { px: e.clientX, py: e.clientY, x, y };
+      const now = performance.now(); if (pts.size === 1 && now - lastTap < 300) zoomAt(s > 1.2 ? 1 : 2.6, e.clientX, e.clientY); lastTap = now;
+    });
+    stage.addEventListener("pointermove", e => {
+      if (!pts.has(e.pointerId)) return; pts.set(e.pointerId, [e.clientX, e.clientY]);
+      if (pts.size === 2 && pinch) { const [p, q] = [...pts.values()]; zoomAt(pinch.s * Math.hypot(p[0] - q[0], p[1] - q[1]) / pinch.d, (p[0] + q[0]) / 2, (p[1] + q[1]) / 2); }
+      else if (drag && s > 1) { x = drag.x + e.clientX - drag.px; y = drag.y + e.clientY - drag.py; clamp(); apply(); }
+    });
+    const lift = e => { pts.delete(e.pointerId); if (pts.size < 2) pinch = null; if (!pts.size) drag = null; };
+    stage.addEventListener("pointerup", lift); stage.addEventListener("pointercancel", lift);
   }
   if (!reduced) gsap.from(fig, { yPercent: 12, rotate: -2, ease: "none", scrollTrigger: { trigger: ".poster", start: "top bottom", end: "center center", scrub: true } });
 
@@ -373,6 +406,19 @@
     });
   }
 
+
+  /* ---------- phones: a trailer button that waits in the thumb zone ---------- */
+  const dock = $("#dock"); let dockHeld = false;
+  function dockOff(v) { dockHeld = v; dockSync(); }
+  function dockSync() {
+    if (!dock) return;
+    const inView = el => { if (!el) return false; const r = el.getBoundingClientRect(); return r.bottom > innerHeight * 0.15 && r.top < innerHeight * 0.85; };
+    const on = !fine && !dockHeld && theatre.hidden && !inView($(".hero")) && !inView($("#trailer")) && !inView($("#contact"));
+    dock.classList.toggle("is-on", on); dock.setAttribute("aria-hidden", on ? "false" : "true");
+    $(".cta", dock).tabIndex = on ? 0 : -1;
+  }
+  if (!fine) { addEventListener("scroll", dockSync, { passive: true }); addEventListener("resize", dockSync); }
+
   /* ---------- theatre: custom player ---------- */
   const theatre = $("#theatre"), tv = $("#trailerVideo"), screen = $("#screen"), closeBtn = $("#theatreClose"), endcard = $("#endcard");
   const scrub = $("#scrub"), fill = $("#fill"), buf = $("#buf"), head = $("#head"), ticks = $("#ticks"), hoverTip = $("#hoverTip");
@@ -423,15 +469,22 @@
   scrub.addEventListener("keydown", e => { if (e.key === "ArrowRight") tv.currentTime += 5; if (e.key === "ArrowLeft") tv.currentTime -= 5; });
   function idle() { theatre.classList.remove("is-idle"); clearTimeout(idleT); idleT = setTimeout(() => { if (!tv.paused) theatre.classList.add("is-idle"); }, 2400); }
   theatre.addEventListener("pointermove", idle);
+  const rot = $("#rot"); let rotSeen = false; // the turn card shows once per visit, never as a nag
+  const rotGo = () => { if (rot.hidden || theatre.hidden) return; rot.hidden = true; tv.play().catch(() => {}); };
+  $("#rotUp").addEventListener("click", () => { report("watch_upright"); rotGo(); });
+  const rotCheck = () => { if (innerWidth > innerHeight) rotGo(); };
+  addEventListener("resize", rotCheck); screen.orientation && screen.orientation.addEventListener("change", rotCheck);
   function openTheatre() {
     lastFocus = document.activeElement;
     theatre.hidden = false; endcard.hidden = true; $(".endcard__bg", endcard).loading = "eager";
-    heroVideo.pause(); lenis && lenis.stop(); document.body.style.overflow = "hidden";
-    tv.play().catch(() => {}); closeBtn.focus();
+    heroVideo.pause(); lenis && lenis.stop(); document.body.style.overflow = "hidden"; dockSync();
+    if (!fine && innerHeight > innerWidth && !rotSeen) { rot.hidden = false; rotSeen = true; report("rotate_prompt"); }
+    else tv.play().catch(() => {});
+    closeBtn.focus();
   }
   function closeTheatre() {
     tv.pause(); if (document.fullscreenElement) document.exitFullscreen();
-    theatre.hidden = true; endcard.hidden = true; lenis && lenis.start(); document.body.style.overflow = "";
+    theatre.hidden = true; endcard.hidden = true; rot.hidden = true; lenis && lenis.start(); document.body.style.overflow = ""; dockSync();
     if (scrollY < innerHeight) heroVideo.play().catch(() => {});
     lastFocus && lastFocus.focus();
   }
