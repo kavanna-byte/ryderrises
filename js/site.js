@@ -157,7 +157,7 @@
     const words = new SplitType(story, { types: "words" }).words;
     words.forEach((w, i) => {
       const k = w.textContent.toLowerCase().replace(/[^a-z]/g, "");
-      if (k === "humdinger" || (k === "one" && /call/i.test((words[i + 1] || {}).textContent || "")) || (k === "call" && /one/i.test((words[i - 1] || {}).textContent || ""))) w.dataset.gold = "1";
+      if (k === "humdinger" || k === "ryder") w.dataset.gold = "1"; // the two names light up violet
     });
     let lastLit = -1;
     ScrollTrigger.create({
