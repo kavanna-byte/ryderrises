@@ -830,3 +830,14 @@ body { caret-color: var(--violet-hot); }
 @media (hover: none), (pointer: coarse) { .logo3d__glint { opacity: 1; } }
 .tilt-wake { position: absolute; left: 50%; bottom: calc(76px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 3; }
 .tilt-wake[hidden] { display: none; }
+
+/* v6.6: phones (by touch, not only by width: some phones report a wide viewport): the tagline reads as a title,
+   the credit sits on the centre line. Letter-spacing adds a trailing gap after the last letter, so each line gives it back with a negative right margin. */
+@media (max-width: 640px), (hover: none) and (pointer: coarse) and (max-width: 1024px) {
+  .tagline { font-size: 15px; letter-spacing: .24em; line-height: 1.75; margin-bottom: 26px; opacity: 1; text-align: center; }
+  .tagline .cut { display: block; margin-right: -.24em; }
+  .hero__credit { left: 0; right: 0; max-width: none; padding: 0 20px; text-align: center; font-size: 11px; letter-spacing: .14em; line-height: 1.75; }
+  .hero__credit .hc { display: block; margin-right: -.14em; }
+  .hero__credit .hc-dot { display: none; }
+  .tilt-wake { bottom: calc(124px + env(safe-area-inset-bottom)); }
+}

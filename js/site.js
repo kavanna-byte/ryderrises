@@ -110,10 +110,14 @@
       if (D) {
         addEventListener("deviceorientation", onTilt); // Android: readings simply start arriving
         // iPhone sends nothing until the visitor allows it, and it may only be asked after a tap: offer the chip only then
-        if (typeof D.requestPermission === "function" && wakeBtn) setTimeout(() => {
-          if (live) return; wakeBtn.hidden = false;
-          wakeBtn.addEventListener("click", () => D.requestPermission().then(() => (wakeBtn.hidden = true)).catch(() => (wakeBtn.hidden = true)), { once: true });
-        }, 1500);
+        if (typeof D.requestPermission === "function") {
+          const ask = () => D.requestPermission().then(() => wakeBtn && (wakeBtn.hidden = true)).catch(() => wakeBtn && (wakeBtn.hidden = true));
+          logo.addEventListener("click", () => !live && ask()); // a tap on the badge itself also wakes it
+          if (wakeBtn) setTimeout(() => {
+            if (live || innerHeight < 820) return; // short screens: no room for the chip under the button, the badge tap is enough
+            wakeBtn.hidden = false; wakeBtn.addEventListener("click", ask, { once: true });
+          }, 1500);
+        }
       }
     }
   }
