@@ -104,7 +104,7 @@
         if (!live) { live = true; sway.kill(); heroLoops.splice(heroLoops.indexOf(sway), 1); if (wakeBtn) wakeBtn.hidden = true; }
         if (!base) base = { b: e.beta, g: e.gamma };
         const gx = Math.max(-1, Math.min(1, (e.gamma - base.g) / 25)), gy = Math.max(-1, Math.min(1, (e.beta - base.b) / 25));
-        ry(gx * 22); rx(-gy * 14); glint.style.backgroundPosition = `${50 - gx * 60}% 0`;
+        ry(gx * 22); rx(-gy * 14); glint.style.backgroundPosition = `${50 - gx * 38}% 0`; glint.style.opacity = (0.25 + 0.75 * Math.min(1, Math.hypot(gx, gy))).toFixed(2); // the sheen grows only with the tilt
       };
       const D = window.DeviceOrientationEvent;
       if (D) {
