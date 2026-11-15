@@ -427,9 +427,9 @@
   if (!fine) { addEventListener("scroll", dockSync, { passive: true }); addEventListener("resize", dockSync); }
 
   /* ---------- theatre: custom player ---------- */
-  { // v6.8 speed: the trailer section starts with the 960 poster; wide screens swap in the full one once the page has loaded
+  { // v7.0 speed: the trailer section's poster loads only after the page (it is below the fold): the 960 on phones, the full one on wide screens
     const sv = $(".trailer__video");
-    if (sv && sv.dataset.posterHi && innerWidth > 760) addEventListener("load", () => { sv.poster = sv.dataset.posterHi; }, { once: true });
+    if (sv) addEventListener("load", () => { sv.poster = innerWidth > 760 && sv.dataset.posterHi ? sv.dataset.posterHi : sv.dataset.posterLo; }, { once: true });
   }
   const theatre = $("#theatre"), tv = $("#trailerVideo"), screen = $("#screen"), closeBtn = $("#theatreClose"), endcard = $("#endcard");
   const scrub = $("#scrub"), fill = $("#fill"), buf = $("#buf"), head = $("#head"), ticks = $("#ticks"), hoverTip = $("#hoverTip");
@@ -523,4 +523,5 @@
   });
 
   addEventListener("load", () => ScrollTrigger.refresh());
+  addEventListener("load", () => document.documentElement.classList.add("fonts-late"), { once: true }); // v7.0 speed: Rock Salt (slate) waits for the load
 })();
