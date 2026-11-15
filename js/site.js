@@ -42,13 +42,16 @@
   const MIN = reduced ? 600 : 2600, MAX = 4500, t0 = performance.now();
   let videoReady = false, done = false;
   heroVideo.addEventListener("canplaythrough", () => (videoReady = true), { once: true });
-  heroVideo.load();
+  // v6.8 speed: the hero video (1.4 MB) starts downloading only when the band lifts, so it never takes the bandwidth the badge,
+  // the fonts and the page itself need; the poster frame covers the moment until it plays
+  let vStarted = false;
+  const startVideo = () => { if (vStarted) return; vStarted = true; heroVideo.preload = "auto"; heroVideo.load(); heroVideo.play().catch(() => {}); };
   function tickMeter() {
     if (done) return;
     const el = performance.now() - t0;
     if (heroVideo.readyState >= 3) videoReady = true;
-    meter.style.width = (Math.min(1, el / MIN) * (videoReady ? 1 : 0.92) * 100).toFixed(1) + "%";
-    if ((el >= MIN && videoReady) || el >= MAX) return cut();
+    meter.style.width = (Math.min(1, el / MIN) * 100).toFixed(1) + "%";
+    if (el >= MIN) return cut(); // v6.8 speed: no longer holds the band for the hero video; the poster frame covers until it plays
     requestAnimationFrame(tickMeter);
   }
   function cut() {
@@ -56,7 +59,7 @@
     try { sessionStorage.setItem("rr-band", "1"); } catch (e) {}
     band.remove();                                  // a cut, not a fade
     document.body.classList.remove("is-loading");
-    heroVideo.play().catch(() => {});
+    startVideo();
     lenis && lenis.start();
     heroIn();
   }
@@ -424,6 +427,10 @@
   if (!fine) { addEventListener("scroll", dockSync, { passive: true }); addEventListener("resize", dockSync); }
 
   /* ---------- theatre: custom player ---------- */
+  { // v6.8 speed: the trailer section starts with the 960 poster; wide screens swap in the full one once the page has loaded
+    const sv = $(".trailer__video");
+    if (sv && sv.dataset.posterHi && innerWidth > 760) addEventListener("load", () => { sv.poster = sv.dataset.posterHi; }, { once: true });
+  }
   const theatre = $("#theatre"), tv = $("#trailerVideo"), screen = $("#screen"), closeBtn = $("#theatreClose"), endcard = $("#endcard");
   const scrub = $("#scrub"), fill = $("#fill"), buf = $("#buf"), head = $("#head"), ticks = $("#ticks"), hoverTip = $("#hoverTip");
   const tcNow = $("#tcNow"), tcDur = $("#tcDur"), chapEl = $("#chap");
@@ -479,6 +486,7 @@
   const rotCheck = () => { if (innerWidth > innerHeight) rotGo(); };
   addEventListener("resize", rotCheck); screen.orientation && screen.orientation.addEventListener("change", rotCheck);
   function openTheatre() {
+    if (!tv.getAttribute("poster") && tv.dataset.poster) tv.poster = tv.dataset.poster; // v6.8 speed: the hidden player's poster loads only when it opens
     lastFocus = document.activeElement;
     theatre.hidden = false; endcard.hidden = true; $(".endcard__bg", endcard).loading = "eager";
     heroVideo.pause(); lenis && lenis.stop(); document.body.style.overflow = "hidden"; dockSync();

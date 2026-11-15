@@ -17,9 +17,11 @@
     gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: "denied", region: NO_COOKIES });
     gtag("js", new Date());
     gtag("config", GA_ID, { allow_google_signals: false, allow_ad_personalization_signals: false });
-    const s = document.createElement("script");
+    const s = document.createElement("script"); // the tag loads after the page has painted and settled; events wait in dataLayer until then
     s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(GA_ID);
-    document.head.appendChild(s);
+    const inject = () => document.head.appendChild(s);
+    const later = () => ("requestIdleCallback" in window ? requestIdleCallback(inject, { timeout: 3000 }) : setTimeout(inject, 1500));
+    if (document.readyState === "complete") later(); else addEventListener("load", later, { once: true });
   }
 
   const track = (name, params = {}) => {
