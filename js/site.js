@@ -100,14 +100,17 @@
       const sway = gsap.to(logo, { rotationY: 6, rotationX: -3, duration: 4, ease: "sine.inOut", yoyo: true, repeat: -1 });
       heroLoops.push(sway);
       // phones: tilting the phone turns the metal badge and slides a glint across it
-      const rx = gsap.quickTo(logo, "rotationX", { duration: 0.6, ease: "power3" }), ry = gsap.quickTo(logo, "rotationY", { duration: 0.6, ease: "power3" });
+      // v7.1: more sensitive (full turn at 12° of tilt instead of 25°, a bigger turn, a quicker follow), and the rest position
+      // drifts slowly to how the phone is being held, so it never sticks at the edge after the visitor shifts their grip
+      const rx = gsap.quickTo(logo, "rotationX", { duration: 0.35, ease: "power3" }), ry = gsap.quickTo(logo, "rotationY", { duration: 0.35, ease: "power3" });
       const glint = $(".logo3d__glint", logo), wakeBtn = $("#tiltWake"); let base = null, live = false;
       const onTilt = e => {
         if (e.beta == null || e.gamma == null) return;
         if (!live) { live = true; sway.kill(); heroLoops.splice(heroLoops.indexOf(sway), 1); if (wakeBtn) wakeBtn.hidden = true; }
         if (!base) base = { b: e.beta, g: e.gamma };
-        const gx = Math.max(-1, Math.min(1, (e.gamma - base.g) / 25)), gy = Math.max(-1, Math.min(1, (e.beta - base.b) / 25));
-        ry(gx * 22); rx(-gy * 14); glint.style.backgroundPosition = `${50 - gx * 38}% 0`; glint.style.opacity = (0.25 + 0.75 * Math.min(1, Math.hypot(gx, gy))).toFixed(2); // the sheen grows only with the tilt
+        base.b += (e.beta - base.b) * 0.006; base.g += (e.gamma - base.g) * 0.006;
+        const gx = Math.max(-1, Math.min(1, (e.gamma - base.g) / 12)), gy = Math.max(-1, Math.min(1, (e.beta - base.b) / 12));
+        ry(gx * 32); rx(-gy * 22); glint.style.backgroundPosition = `${50 - gx * 38}% 0`; glint.style.opacity = (0.25 + 0.75 * Math.min(1, Math.hypot(gx, gy))).toFixed(2); // the sheen grows only with the tilt
       };
       const D = window.DeviceOrientationEvent;
       if (D) {
@@ -389,7 +392,7 @@
     let method = "copy";
     const touch = navigator.maxTouchPoints > 0 || matchMedia("(pointer: coarse)").matches; // phones and tablets, an iPad with a trackpad included
     if (touch && navigator.share) { // the system share sheet (iPhone / Android); desktops copy the link
-      try { await navigator.share({ title: "Ryder Rises", text: "PAW Patrol: Ryder Rises. An unsanctioned fan parody trailer.", url }); method = "native"; }
+      try { await navigator.share({ title: "Ryder Rises", text: "PAW Patrol: Ryder Rises. An unsanctioned parody trailer.", url }); method = "native"; }
       catch (e) { if (e && e.name === "AbortError") return; } // closed the sheet: done; any other refusal falls back to copying
     }
     if (method === "copy" && !(await copyText(url))) return;
