@@ -850,3 +850,9 @@ body { caret-color: var(--violet-hot); }
 }
 
 /* v6.8 speed: the masks (aura, rim, spec, glint) read only the badge's outline, so they use the 640 file; phones no longer download the 1200 one */
+
+/* v6.9: Contact stands out from the section links: lit text in a thin violet frame */
+.nav__links a.nav__contact { color: var(--bone); padding: 9px 16px; margin: -1px 0; border: 1px solid rgba(178,123,255,.55); border-radius: 999px;
+  background: rgba(123,63,242,.14); box-shadow: 0 0 14px rgba(155,92,255,.22), inset 0 0 10px rgba(155,92,255,.12); transition: color .3s, background .3s, box-shadow .3s, border-color .3s; }
+.nav__links a.nav__contact:hover, .nav__links a.nav__contact.is-active { background: rgba(123,63,242,.3); border-color: rgba(214,180,255,.85); box-shadow: 0 0 20px rgba(155,92,255,.4), inset 0 0 12px rgba(155,92,255,.2); }
+.nav__links a.nav__contact::after { display: none; }

@@ -459,15 +459,15 @@
   $("#plPlay").addEventListener("click", toggle);
   tv.addEventListener("click", toggle);
   $("#plMute").addEventListener("click", () => (tv.muted = !tv.muted));
-  // captions: off by default, the viewer's choice is remembered
+  // captions: ON by default (v6.9); only a viewer who turns them off keeps them off (a new key: the old one saved "off" for everyone)
   const ccBtn = $("#plCC"), ccTrack = tv.textTracks[0];
-  const setCC = on => {
+  const setCC = (on, save) => {
     if (ccTrack) ccTrack.mode = on ? "showing" : "hidden";
     ccBtn.setAttribute("aria-pressed", String(on)); theatre.classList.toggle("is-cc", on);
-    try { localStorage.setItem("rr-cc", on ? "1" : "0"); } catch (e) {}
+    if (save) try { localStorage.setItem("rr-cc2", on ? "1" : "0"); } catch (e) {}
   };
-  setCC((() => { try { return localStorage.getItem("rr-cc") === "1"; } catch (e) { return false; } })());
-  ccBtn.addEventListener("click", () => setCC(!theatre.classList.contains("is-cc")));
+  setCC((() => { try { return localStorage.getItem("rr-cc2") !== "0"; } catch (e) { return true; } })());
+  ccBtn.addEventListener("click", () => setCC(!theatre.classList.contains("is-cc"), true));
   $("#plFull").addEventListener("click", () => (document.fullscreenElement ? document.exitFullscreen() : (screen.requestFullscreen ? screen.requestFullscreen() : tv.webkitEnterFullscreen && tv.webkitEnterFullscreen())));
   const seekFrom = e => { const r = scrub.getBoundingClientRect(); tv.currentTime = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)) * dur; paint(); };
   scrub.addEventListener("pointerdown", e => { dragging = true; scrub.setPointerCapture(e.pointerId); seekFrom(e); });
@@ -510,13 +510,11 @@
     if (e.key === "c") ccBtn.click();
     if (e.key === "f") $("#plFull").click();
   });
-  // the last frame is a card, not an exit: a hard cut to it, like everything else here
+  // v6.9: when the trailer ends the player closes by itself and hands the page back, so the viewer keeps scrolling
+  // (the film's own last card already carries the credit and the address)
   tv.addEventListener("ended", () => {
-    if (document.fullscreenElement) document.exitFullscreen();
     if (tv.webkitDisplayingFullscreen && tv.webkitExitFullscreen) tv.webkitExitFullscreen();
-    endcard.hidden = false;
-    $$(".cta", endcard).forEach(b => b._size && b._size());
-    $(".js-share", endcard).focus({ preventScroll: true });
+    tv.currentTime = 0; closeTheatre();
   });
   $(".js-replay", endcard).addEventListener("click", () => { report("trailer_replay"); tv.currentTime = 0; tv.play().catch(() => {}); });
   $(".js-tocontact", endcard).addEventListener("click", () => {
