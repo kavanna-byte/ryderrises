@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-btn="14">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ryder Rises: Case Study</title>
+<meta name="description" content="How one designer shipped a cinematic parody trailer with AI tools that did not exist yet: the spec, the model bake-off, the production system and the launch funnel behind PAW Patrol: Ryder Rises.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://*.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src-elem 'self' https://fonts.googleapis.com; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Ryder Rises">
+<meta property="og:title" content="Ryder Rises: Case Study | Shipping a film with tools that didn't exist yet">
+<meta property="og:description" content="The spec, the model bake-off, the production system and the launch funnel behind an unsanctioned parody trailer. 42 shots, under $100, about 30 working days.">
+<meta property="og:image" content="https://ryderrises.com/assets/og-v3.jpg">
+<meta name="twitter:image" content="https://ryderrises.com/assets/og-v3.jpg">
+<meta property="og:url" content="https://ryderrises.com/case-study/">
+<link rel="canonical" href="https://ryderrises.com/case-study/">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+<meta property="og:image:alt" content="PAW Patrol: Ryder Rises. Ryder faces the ruined Lookout in a storm. An unsanctioned parody trailer by Yoni Levy">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="preload" as="font" type="font/woff2" href="../assets/fonts/archivo-latin-v2.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="../assets/fonts/jost-latin.woff2" crossorigin>
+<link rel="stylesheet" href="../css/site.css?v=68">
+<link rel="stylesheet" href="cs.css?v=33">
+<script src="../js/electric.js?v=5" defer></script>
+<script src="cs.js?v=10" defer></script>
+<script src="../js/analytics.js?v=5" defer></script>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <a class="nav__studio" href="../" dir="ltr" aria-label="Humblin Pictures, back to the film">
+    <img src="../assets/humblin.webp" alt="" width="46" height="46">
+    <span>Humblin<br>Pictures</span>
+  </a>
+  <nav class="nav__links" aria-label="Chapters">
+    <a href="#problem">Problem</a>
+    <a href="#wait">The wait</a>
+    <a href="#system">System</a>
+    <a href="#launch">Launch</a>
+    <a href="#impact">Impact</a>
+  </nav>
+  <div class="nav__right">
+    <a class="cta cta--sm" href="../#trailer"><canvas class="cta__plasma" aria-hidden="true"></canvas><span class="cta__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="16" rx="5.2" ry="4.4"/><ellipse cx="5.5" cy="10.5" rx="2.2" ry="2.8"/><ellipse cx="9.5" cy="6.5" rx="2.2" ry="2.9"/><ellipse cx="14.5" cy="6.5" rx="2.2" ry="2.9"/><ellipse cx="18.5" cy="10.5" rx="2.2" ry="2.8"/></svg></span><span class="cta__label">Trailer</span><i class="cta__boop" aria-hidden="true"></i></a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="cs-hero" aria-label="Case study">
+  <img class="cs-hero__bg" src="../assets/stills/04-11-lookout.webp" alt="">
+  <video class="cs-hero__bg cs-hero__film js-inview" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1">
+    <source src="../assets/hero-m.mp4?v=4" type="video/mp4" media="(max-width: 700px)">
+    <source src="../assets/hero.mp4?v=4" type="video/mp4">
+  </video>
+  <div class="cs-hero__shade"></div>
+  <div class="cs-hero__in">
+    <span class="logo3d cs-hero__logo" aria-hidden="true">
+      <span class="logo3d__core"><i class="logo3d__rays"></i></span>
+      <span class="logo3d__aura"><i></i></span>
+      <span class="logo3d__rim"><i></i></span>
+      <img class="logo3d__img" src="../assets/logo3d-v3-640.webp" alt="" width="640" height="698">
+    </span>
+    <p class="tagline">Case study</p>
+    <h1 class="metal metal--xl cs-hero__title">Shipping a film with tools that <em>didn't exist yet.</em></h1>
+    <dl class="cs-meta">
+      <div><dt>Role</dt><dd>Design Lead · Creative Director</dd></div>
+      <div><dt>Timeline</dt><dd>Mar 2025 to Dec 2026</dd></div>
+      <div><dt>Team</dt><dd>One person, a stack of generative tools</dd></div>
+      <div><dt>Shipped</dt><dd>A 1:58 trailer, a one-sheet, a campaign site</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ============ THE SHORT VERSION ============ -->
+<section class="cs-sec cs-tldr" id="tldr">
+  
+  <p class="cs-lede">I treated a parody trailer like a product: a spec, hard constraints, a vendor bake-off, a production system and a launch funnel. The one thing I couldn't design was the technology, <em>so I designed around it and waited.</em></p>
+  <ol class="cs-three">
+    <li><b>The idea</b><span>March 2025. No video model could make it.</span></li>
+    <li><b>The decision</b><span>Design the film as frames, then wait for a model that passes six constraints.</span></li>
+    <li><b>The result</b><span>42 shots at a fifth of the price. Under $100, about 30 working days.</span></li>
+  </ol>
+  <p class="cs-carry">None of this is about film. Write the spec before you pick the tool, test every vendor against the same fixed constraints, and put an approval in front of every paid run.</p>
+</section>
+
+<!-- ============ 01 PROBLEM ============ -->
+<section class="cs-sec" id="problem">
+  <div class="cs-head">
+    <div><h2 class="metal">An idea the tools <em>couldn't make.</em></h2></div>
+    <p class="body">A cartoon cast that has to stay itself in every shot, filmed like a Hollywood trailer, on a personal budget. Every tool I tried could make something. None could make this.</p>
+  </div>
+  <ol class="cs-constraints">
+    <li><b>On model.</b><span>A cartoon kid stays a cartoon kid. Not a grown man with stubble.</span></li>
+    <li><b>The IP.</b><span>Some platforms block well-known characters outright.</span></li>
+    <li><b>Two frames.</b><span>I design both ends of a shot. The model fills the middle.</span></li>
+    <li><b>No watermark.</b><span>Anything burned into the frame ends the shot.</span></li>
+    <li><b>My budget.</b><span>Self-funded. Every paid run needs my go.</span></li>
+    <li><b>The bar.</b><span>A studio trailer, not a viral clip.</span></li>
+  </ol>
+  <blockquote class="cs-hyp"><span>If I design every frame myself and treat video models as <em>interchangeable renderers,</em> I can switch models at the cost of one bake-off, and wait for the right one.</span></blockquote>
+</section>
+
+<!-- ============ 02 THE SPEC ============ -->
+<section class="cs-sec cs-sec--bleed" id="spec">
+  <div class="cs-head">
+    <div><h2 class="metal">The frames <em>are the PRD.</em></h2></div>
+    <p class="body">Whoever owns the frames owns the product. The video model only renders it. So before a single shot moved, I designed the film as 64 frames in eight days.</p>
+  </div>
+  <div class="strip" id="strip">
+    <ol class="strip__reel">
+      <li class="frame frame--seed"><img src="../assets/strip/0a-sora-2025.webp" alt="Sora, March 2025: a picnic of off-model pups" loading="lazy" width="960" height="422"><time>Mar 2025</time><h4>The seed</h4><p>I tried the idea in Sora, the leading video model of the day. It served a picnic of knock-off pups. Back in the drawer.</p></li>
+      <li class="frame frame--seed"><img src="../assets/strip/0b-sora-2026.webp" alt="Sora, January 2026: a grown man with stubble behind bars" loading="lazy" width="960" height="422"><time>Jan 08, 2026</time><h4>One last Sora try</h4><p>It got the world right and cast Ryder as a grown man with stubble.</p></li>
+      <li class="frame"><img src="../assets/strip/1.webp" alt="The first frame: the Humdinger monolith in a storm" loading="lazy" width="960" height="422"><time>Jan 08</time><h4>Frame one</h4><p>Twenty minutes later, in another tool. The world before the hero.</p></li>
+      <li class="frame"><img src="assets/strip-spec-1.jpg" alt="The prison corridor" loading="lazy" width="960" height="422"><time>Jan 11</time><h4>The cell</h4><p>Act by act, with character sheets so the kid stays the kid.</p></li>
+      <li class="frame"><img src="assets/strip-spec-2.jpg" alt="Ryder and the broken robo-dog" loading="lazy" width="960" height="422"><time>Jan 10</time><h4>The heart</h4><p>Later, every model was tested on this frame.</p></li>
+      <li class="frame"><img src="assets/strip-spec-3.jpg" alt="A hand on the glass, the suit behind it" loading="lazy" width="960" height="422"><time>Jan 25</time><h4>The suit</h4><p>Some frames were drawn as pairs: where a shot starts, and where it lands.</p></li>
+      <li class="frame"><img src="assets/strip-spec-4.jpg" alt="Ryder surrounded by the cat army" loading="lazy" width="960" height="422"><time>Jan 12</time><h4>The fight</h4><p>Sixty-four frames in eight days. The spec was done in January.</p></li>
+    </ol>
+  </div>
+  <div class="move cs-move">
+    <div class="move__text"><h4>Two frames, one move</h4><p>The PRD in practice: I design the first and last frames, and the model renders the move between them.</p></div>
+    <figure class="move__frame"><img src="../assets/move/11-lookout-first.webp" alt="The designed first frame" loading="lazy" width="1280" height="562"><figcaption>First frame</figcaption></figure>
+    <figure class="move__frame"><img src="../assets/move/11-lookout-last.webp" alt="The designed last frame" loading="lazy" width="1280" height="562"><figcaption>Last frame</figcaption></figure>
+    <figure class="move__shot"><video class="js-inview" src="../assets/move/11-lookout-shot.mp4" muted loop playsinline preload="none" aria-label="The finished shot"></video><figcaption>The shot</figcaption></figure>
+  </div>
+</section>
+
+<!-- ============ 03 THE WAIT ============ -->
+<section class="cs-sec" id="wait">
+  <div class="cs-head">
+    <div><h2 class="metal">Every tool made something. <em>None made the film.</em></h2></div>
+    <p class="body">The frames were ready in January. Then came round after round of tools, each judged against the same six constraints, until one passed in August.</p>
+  </div>
+
+  <!-- DIAGRAM A -->
+  <figure class="dia" id="diaA">
+    <figcaption class="dia__cap"><span>Diagram A</span><b>The timeline: every model I tried, against the production</b></figcaption>
+    <div class="tl" id="timeline" role="img" aria-label="Timeline from March 2025 to December 2026 showing each video model tried and the production phases"></div>
+    <ol class="tl-m" id="timelineM"></ol>
+    <div class="legend"><span class="k k--no">Rejected</span><span class="k k--part">Kept in part</span><span class="k k--yes">Chosen</span><span class="k k--wait">Waiting for the tech</span></div>
+  </figure>
+
+  <div class="cs-turn">
+    <div>
+      <h3 class="compare-head__t">The day <em>it turned.</em></h3>
+      <p class="body">On August 11 I connected Claude to fal and left Higgsfield, which had blocked the characters. I asked for a video model built for animation. It suggested MiniMax H3 and compared prices, and we tested both on the robo-dog frame.</p>
+      <p class="body">Seedance cost $3.71 for 8 seconds at 720p and switched off the robot's lit eyes. H3 cost about $0.80 at 768p and kept them. About a fifth of the price, and no worse. At Seedance's price, the same shoot would have cost four to five times as much.</p>
+    </div>
+    <div class="cs-vs">
+      <figure><img src="assets/strip-veo.jpg" alt="Veo, July 2026: the robo-dog beat" loading="lazy" width="960" height="422"><figcaption>Veo · Jul 3 · thrown out</figcaption></figure>
+      <figure class="cs-vs__win"><img src="../assets/stills/05-12-robodog-960.webp" alt="The final film: the robo-dog beat" loading="lazy"><figcaption>The film</figcaption></figure>
+    </div>
+  </div>
+
+  <!-- DIAGRAM B -->
+  <figure class="dia" id="diaB">
+    <figcaption class="dia__cap"><span>Diagram B</span><b>The bake-off: six constraints, every model</b></figcaption>
+    <div class="mx-wrap">
+      <table class="mx">
+        <thead>
+          <tr><th scope="col">Model</th><th scope="col">On model</th><th scope="col">Emotion, lit eyes</th><th scope="col">Two frames</th><th scope="col">Accepts the IP</th><th scope="col">No watermark</th><th scope="col">Cost</th><th scope="col">Verdict</th></tr>
+        </thead>
+        <tbody>
+          <tr class="r-no"><th scope="row">Sora<small>Mar 2025, Jan 2026</small></th><td><i class="d d--no"></i>Knock-off pups, a grown-up Ryder</td><td><i class="d d--na"></i></td><td><i class="d d--na"></i></td><td><i class="d d--na"></i></td><td><i class="d d--na"></i></td><td>Subscription</td><td class="v">Too early</td></tr>
+          <tr class="r-part"><th scope="row">Midjourney<small>Jan 2026</small></th><td><i class="d d--part"></i>A few shots held</td><td><i class="d d--yes"></i>The robo-dog hug made the film</td><td><i class="d d--yes"></i>End frame</td><td><i class="d d--yes"></i></td><td><i class="d d--yes"></i></td><td>Subscription</td><td class="v">Kept as plates, and as the bar</td></tr>
+          <tr class="r-no"><th scope="row">Veo / Flow<small>Jan, Jul 2026</small></th><td><i class="d d--no"></i>Mostly weak</td><td><i class="d d--na"></i></td><td><i class="d d--na"></i></td><td><i class="d d--yes"></i></td><td><i class="d d--no"></i>In frame</td><td>Subscription</td><td class="v">30 shots thrown out</td></tr>
+          <tr class="r-no"><th scope="row">Higgsfield<small>Aug 2026</small></th><td><i class="d d--na"></i></td><td><i class="d d--na"></i></td><td><i class="d d--na"></i></td><td><i class="d d--no"></i>Blocked for copyright</td><td><i class="d d--na"></i></td><td>Credits</td><td class="v">Blocked</td></tr>
+          <tr class="r-no"><th scope="row">Seedance 2 / 2.5<small>Aug 2026</small></th><td><i class="d d--part"></i>Too human from a cropped frame</td><td><i class="d d--no"></i>The robot's eyes went dark</td><td><i class="d d--na"></i></td><td><i class="d d--yes"></i>On fal</td><td><i class="d d--yes"></i></td><td><b class="cost">$0.47/s</b><small>720p</small></td><td class="v">Good. ~5× the price</td></tr>
+          <tr class="r-yes"><th scope="row">MiniMax H3<small>Aug to Nov 2026</small></th><td><i class="d d--yes"></i>Stayed childlike</td><td><i class="d d--yes"></i>Eyes stayed lit</td><td><i class="d d--yes"></i></td><td><i class="d d--yes"></i>On fal</td><td><i class="d d--yes"></i></td><td><b class="cost">$0.10/s</b><small>768p · $0.16/s at 2K</small></td><td class="v">Winner. 42 shots</td></tr>
+          <tr class="r-yes"><th scope="row">Kling 4.0<small>Nov 2026</small></th><td><i class="d d--na"></i></td><td><i class="d d--na"></i></td><td><i class="d d--yes"></i>Start, middle, end</td><td><i class="d d--yes"></i></td><td><i class="d d--yes"></i></td><td><b class="cost">$1.18</b><small>per 5 s, 1080p</small></td><td class="v">Finishing fixes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="legend"><span class="k"><i class="d d--yes"></i>Passes</span><span class="k"><i class="d d--part"></i>In part</span><span class="k"><i class="d d--no"></i>Fails</span><span class="k"><i class="d d--na"></i>Not tested</span></div>
+  </figure>
+</section>
+
+<!-- ============ 04 SYSTEM ============ -->
+<section class="cs-sec" id="system">
+  <div class="cs-head">
+    <div><h2 class="metal">The tools change. <em>The system doesn't.</em></h2></div>
+    <p class="body">The system let me swap models mid-project, keep every version, and never pay for a run I hadn't approved.</p>
+  </div>
+
+  <!-- DIAGRAM C -->
+  <figure class="dia" id="diaC">
+    <figcaption class="dia__cap"><span>Diagram C</span><b>Production architecture</b></figcaption>
+    <div class="arch">
+      <div class="arch__band arch__band--me"><p class="arch__name">Me · the decisions</p><ul><li>Write and design every frame</li><li>Approve each move: "go"</li><li>Mark the cut points</li><li>Lock picture and sound</li><li>Positioning and launch</li></ul></div>
+      <ol class="arch__line">
+        <li><b>Spec</b><span>64 designed frames</span><em>Gemini</em></li>
+        <li><b>Clean</b><span>Watermarks out, one aspect, upscaled</span><em>IOPaint / LaMa · Upscayl</em></li>
+        <li class="is-hot"><b>Generate</b><span>Two frames per shot, chained</span><em>MiniMax H3 on fal</em></li>
+        <li><b>QA</b><span>Freeze, on-twos, frame sheets</span><em>ffmpeg · Python</em></li>
+        <li><b>Library</b><span>42 approved shots at 2912×1280</span><em>Versioned, never overwritten</em></li>
+        <li><b>Edit as code</b><span>Frame-exact edit lists, 49 versions</span><em>JSON · Python · ffmpeg</em></li>
+        <li><b>Sound</b><span>Rebuilt from its layers, 28 mixes</span><em>Suno · ElevenLabs · voice clone</em></li>
+        <li><b>Master</b><span>2912×1280, web encodes, captions</span><em>ffmpeg</em></li>
+        <li><b>Site</b><span>ryderrises.com, custom player</span><em>GitHub Pages</em></li>
+        <li><b>Measure</b><span>Watch depth, shares, contacts</span><em>GA4 · Search Console · UTMs</em></li>
+      </ol>
+      <div class="arch__band arch__band--cc"><p class="arch__name">Control layer · Claude Code</p><ul><li>A memory of every rule, with when and why</li><li>Handoffs between sessions</li><li>Gated paid runs</li><li>Measured review: timecodes, frames, loudness</li><li>Two skills distilled from the project</li></ul></div>
+    </div>
+  </figure>
+
+  <!-- DIAGRAM D -->
+  <figure class="dia" id="diaD">
+    <figcaption class="dia__cap"><span>Diagram D</span><b>Frame-chaining: the opening as one camera move</b></figcaption>
+    <div class="chain">
+      <div class="chain__spans">
+        <span class="chain__span" style="--from:1;--to:3"><b>Shot 03b</b><span>through the bars</span></span>
+        <span class="chain__span" style="--from:2;--to:4"><b>Shot 03c</b><span>up to the window</span></span>
+        <span class="chain__span" style="--from:3;--to:5"><b>Shot 04b</b><span>the key arrives</span></span>
+      </div>
+      <ol class="chain__frames">
+        <li><img src="assets/chain-03b-window-dive-first.jpg" alt="Shot 03b, first frame: the prison in the storm" loading="lazy" width="960" height="422"><span>First frame</span></li>
+        <li class="is-join"><img src="assets/chain-03b-window-dive-last.jpg" alt="The join: the last frame of 03b is the first frame of 03c" loading="lazy" width="960" height="422"><span>Last of 03b = first of 03c</span><em>36.7 dB match</em></li>
+        <li class="is-join"><img src="assets/chain-03c-ryder-to-window-last.jpg" alt="The join: the last frame of 03c is the first frame of 04b" loading="lazy" width="960" height="422"><span>Last of 03c = first of 04b</span><em>33.7 dB match</em></li>
+        <li><img src="assets/chain-04b-chicken-key-entry-last.jpg" alt="Shot 04b, last frame: Chickaletta with the key" loading="lazy" width="960" height="422"><span>Last frame</span></li>
+      </ol>
+    </div>
+    <p class="dia__note">Each shot starts on the exact last frame of the one before it, so a cut reads as one continuous move. That's why the film has no dissolves.</p>
+  </figure>
+</section>
+
+<!-- ============ ONE SHOT, UP CLOSE ============ -->
+<section class="cs-sec" id="closeup">
+  <div class="cs-head">
+    <div><h2 class="metal">One shot, <em>up close.</em></h2></div>
+    <p class="body">The studio ident runs four seconds: an empty sky, a bicycle across the moon, an empty sky again. It took three models to get there.</p>
+  </div>
+  <ol class="fails closeup">
+    <li><img src="assets/closeup-ident-a-h3.webp" alt="First try: the bicycle is already on the moon in the first frame" loading="lazy" width="800" height="600"><h3>Two frames</h3><p><b>Tried</b><span>MiniMax H3, with a first and a last frame.</span></p><p><b>Result</b><span>Two frames can't describe a pass. The bicycle is already on the moon in frame one.</span></p><p><b>Changed</b><span>The shot needs a frame in the middle.</span></p></li>
+    <li><img src="assets/closeup-ident-b-flux.webp" alt="Second try: the bicycle wheels bend as it leaves the moon" loading="lazy" width="800" height="600"><h3>One keyframe</h3><p><b>Tried</b><span>FLUX, with a keyframe at the centre of the moon.</span></p><p><b>Result</b><span>The entrance worked. The wheels bent on the way out.</span></p><p><b>Changed</b><span>One keyframe can't hold a shape across the frame.</span></p></li>
+    <li><img src="assets/closeup-ident-c-kling.webp" alt="Third try: the silhouette holds, wheels round" loading="lazy" width="800" height="600"><h3>Five frames</h3><p><b>Tried</b><span>Kling 4.0: a start, three pins across the moon, an end.</span></p><p><b>Result</b><span>The silhouette holds from edge to edge.</span></p><p><b>Changed</b><span>The method is picked per shot, not per film.</span></p></li>
+  </ol>
+  <div class="move cs-move closeup__final">
+    <div class="move__text"><h4>In the film</h4><p>The approved take, as it opens the trailer.</p></div>
+    <figure class="move__shot"><video class="js-inview" src="../assets/move/00-humblin-shot.mp4" muted loop playsinline preload="none" aria-label="The studio ident: the finished shot"></video><figcaption>The shot</figcaption></figure>
+  </div>
+</section>
+
+<!-- ============ 05 RULES ============ -->
+<section class="cs-sec" id="rules">
+  <div class="rules">
+    
+    <h2 class="metal">Each rule <em>was earned.</em></h2>
+    <ol class="rules__list">
+      <li><b>No dissolves. Ever.</b><span>A half-second dissolve was thrown out, then a quarter-second one. Cut, chain, or let the storm flash.</span></li>
+      <li><b>Speeding up is not cutting.</b><span>A ×4 speed-up read as deleted footage. A shot that needs energy gets a little faster, with every frame kept.</span></li>
+      <li><b>Chain the frames.</b><span>The first joins didn't connect. Now the last frame of a shot is the first frame of the next.</span></li>
+      <li><b>Agree the move, then go.</b><span>Two expensive runs sent the camera to the wrong floor. No paid run without an approved move.</span></li>
+      <li><b>No AI tells.</b><span>Spark frames, stock doodles, off-model faces. Each one was cut or redrawn.</span></li>
+      <li><b>Music first.</b><span>Four story-order cuts came out bad. The trailer is cut to the phrases of the score.</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 06 WHAT BROKE ============ -->
+<section class="cs-sec" id="broke">
+  <div class="cs-head">
+    <div><h2 class="metal">Four wrong turns, <em>four fixes.</em></h2></div>
+    <p class="body">Each one cost time, and each one changed how the next thing was made.</p>
+  </div>
+  <ol class="fails">
+    <li><h3>The linear cut</h3><p><b>Tried</b><span>Four story-order assemblies.</span></p><p><b>Result</b><span>"Came out really bad."</span></p><p><b>Changed</b><span>Rebuilt as a trailer, music first.</span></p></li>
+    <li><h3>The patched poster</h3><p><b>Tried</b><span>Fixing AI renders patch by patch.</span></p><p><b>Result</b><span>Mud.</span></p><p><b>Changed</b><span>A clean, layered rebuild.</span></p></li>
+    <li><h3>The first site</h3><p><b>Tried</b><span>A page that felt like a template.</span></p><p><b>Result</b><span>5/10. "AI slop."</span></p><p><b>Changed</b><span>Rebuilt from the film's own materials.</span></p></li>
+    <li><h3>The re-recorded line</h3><p><b>Tried</b><span>Four voice tools.</span></p><p><b>Result</b><span>None beat the original.</span></p><p><b>Changed</b><span>Kept the original. Knowing when to stop.</span></p></li>
+  </ol>
+
+  <!-- DIAGRAM E -->
+  <figure class="dia" id="diaE">
+    <figcaption class="dia__cap"><span>Diagram E</span><b>The iteration funnel</b></figcaption>
+    <ol class="funnel">
+      <li style="--v:64"><b>64</b><span>frames designed</span><i></i></li>
+      <li style="--v:100"><b>≈100</b><span>generation runs on H3</span><i></i></li>
+      <li style="--v:42"><b>42</b><span>shots approved into the library</span><i></i></li>
+      <li style="--v:47"><b>47</b><span>cuts in the final trailer</span><i></i></li>
+      <li style="--v:4" class="is-out"><b>1:58</b><span>one trailer</span><i></i></li>
+    </ol>
+    <div class="funnel__side">
+      <p><b>49</b><span>picture versions</span></p>
+      <p><b>28</b><span>mixes</span></p>
+      <p><b>31</b><span>poster versions</span></p>
+      <p><b>0</b><span>dissolves</span></p>
+    </div>
+  </figure>
+</section>
+
+<!-- ============ 07 LAUNCH ============ -->
+<section class="cs-sec" id="launch">
+  <div class="cs-head">
+    <div><h2 class="metal">A launch built for <em>one audience.</em></h2></div>
+    <p class="body">Positioned as an unsanctioned parody, never "made with AI". Aimed at industry people through LinkedIn and an ad targeted at the studio's own staff. Every link is tagged, every step is measured.</p>
+  </div>
+
+  <!-- DIAGRAM F -->
+  <figure class="dia" id="diaF">
+    <figcaption class="dia__cap"><span>Diagram F</span><b>The launch funnel, and what each step measures</b></figcaption>
+    <ol class="gtm">
+      <li><p class="gtm__step">Reach</p><ul><li>Launch post on LinkedIn</li><li>Ad to the studio's staff</li><li>Profile, Featured</li><li>Humblin Pictures on YouTube</li></ul><p class="gtm__m">Measured: a UTM tag per channel</p></li>
+      <li><p class="gtm__step">Land</p><ul><li>ryderrises.com</li><li>The film in 1:58, the poster, the story</li></ul><p class="gtm__m">Measured: sessions by source</p></li>
+      <li><p class="gtm__step">Watch</p><ul><li>Trailer opens</li><li>10, 25, 50, 75, 90%</li><li>Watched to the end</li></ul><p class="gtm__m">Measured: real watch time</p></li>
+      <li class="is-hot"><p class="gtm__step">Act</p><ul><li>Make the call (LinkedIn)</li><li>Write an email</li><li>Pass it on</li></ul><p class="gtm__m">Measured: contacts and shares</p></li>
+    </ol>
+    <p class="dia__note">Launch day is Tuesday, Dec 1. The results go in here after it, not before.</p>
+  </figure>
+</section>
+
+<!-- ============ 08 IMPACT ============ -->
+<section class="cs-sec" id="impact">
+  <div class="making-intro">
+    <div class="making-intro__copy">
+      
+      <h2 class="metal">What it took.</h2>
+      <p class="body">The production numbers are in. The audience numbers come after the launch on Dec 1: views, watch depth, and contacts from the studios I'm aiming at.</p>
+    </div>
+    <div class="slate" dir="ltr">
+      <div class="slate__stick" aria-hidden="true"><i></i></div>
+      <div class="slate__board">
+        <div class="slate__cell slate__cell--wide"><span>Prod.</span><b>Ryder Rises</b></div>
+        <div class="slate__cell"><span>Days</span><b>≈30</b><em>working days</em></div>
+        <div class="slate__cell"><span>Spend</span><b>&lt;$100</b><em>in generation</em></div>
+        <div class="slate__cell"><span>Takes</span><b>49</b><em>picture versions</em></div>
+        <div class="slate__cell"><span>Mixes</span><b>28</b><em>sound versions</em></div>
+        <div class="slate__cell slate__cell--wide"><span>Lighthouse</span><b>31 → 89</b><em>mobile score</em></div>
+        <div class="slate__cell slate__cell--wide"><span>Audience</span><b>Dec 1</b><em>after the launch</em></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 09 REFLECTION ============ -->
+<section class="cs-sec" id="reflect">
+  <div class="rules">
+    
+    <h2 class="metal">Next time.</h2>
+    <ol class="rules__list">
+      <li><b>Plan the method per shot.</b><span>Up front, not one rejected version at a time.</span></li>
+      <li><b>Write the playbook early.</b><span>The lessons became two reusable skills. I should have written them sooner.</span></li>
+      <li><b>Never patch AI images.</b><span>A clean composite beats one more regeneration.</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 10 STACK ============ -->
+<section class="cs-sec" id="stack">
+  <div class="cs-head">
+    <div><h2 class="metal">The stack.</h2></div>
+    <p class="body">For people building with these tools: what each one did, what it cost, and what lost out. Twelve stages, from the first idea test to the live site.</p>
+  </div>
+  <details class="cs-fold">
+    <summary><span class="ghost">Show the full stack</span><i class="cs-fold__pm" aria-hidden="true"></i></summary>
+  <div class="mx-wrap">
+    <table class="mx stack">
+      <thead><tr><th scope="col">Stage</th><th scope="col">Tool</th><th scope="col">Why</th><th scope="col">Cost</th><th scope="col">What lost out, and why</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Idea test</th><td>Sora</td><td>The leading video model in 2025</td><td>Subscription</td><td>Too early: off-model, a grown-up Ryder</td></tr>
+        <tr><th scope="row">The frames</th><td>Gemini (Nano Banana)</td><td>One consistent CG look across 64 frames</td><td>Subscription</td><td></td></tr>
+        <tr><th scope="row">Motion tests</th><td>Midjourney video</td><td>A few shots good enough to keep</td><td>Subscription</td><td>Veo: weak, watermarked, 30 shots dropped</td></tr>
+        <tr><th scope="row">The shoot</th><td>MiniMax H3 on fal</td><td>On model, lit eyes, two frames, no IP block</td><td>$48.60 for the shoot</td><td>Seedance: ~5× the price. Higgsfield: blocked</td></tr>
+        <tr><th scope="row">Fixes</th><td>Kling 4.0</td><td>Start, middle and end frames</td><td>$1.18 per 5 s</td><td>FLUX keyframes: bent bike wheels</td></tr>
+        <tr><th scope="row">Clean-up</th><td>IOPaint / LaMa, Upscayl</td><td>Local batch inpaint and upscale</td><td>Free</td><td></td></tr>
+        <tr><th scope="row">Edit</th><td>ffmpeg, Python</td><td>Frame-exact, versioned edit lists</td><td>Free</td><td>A first assembly in Remotion</td></tr>
+        <tr><th scope="row">Music</th><td>Suno</td><td>A cover of the theme, cut to phrases</td><td>Pro plan</td><td>Lyria, Stable Audio, original songs</td></tr>
+        <tr><th scope="row">Sound and voice</th><td>ElevenLabs, a voice clone</td><td>Effects and the narrator</td><td>Subscription</td><td>Voice changers and re-record tools</td></tr>
+        <tr><th scope="row">The poster</th><td>ChatGPT, Gemini, Nano Banana Pro, Photoshop</td><td>Composition, 4K tiles, a scripted layered build</td><td>≈$4.80 in tiles</td><td>Patch-by-patch fixes</td></tr>
+        <tr><th scope="row">Orchestration</th><td>Claude Code</td><td>Memory, gated runs, measured review, skills</td><td>Subscription</td><td></td></tr>
+        <tr><th scope="row">Ship</th><td>GitHub Pages, GA4, Search Console</td><td>A fast site that measures itself</td><td>Free</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+  </details>
+</section>
+
+<!-- ============ CLOSE ============ -->
+<section class="close" id="contact" aria-label="Watch the trailer">
+  <img class="close__bg" src="../assets/stills/07-25-cat-fight.webp" alt="" loading="lazy" width="1920" height="844">
+  <div class="close__inner">
+    <h2 class="ztitle" id="ztitle"><span class="visually-hidden">See it move.</span><span class="ztitle__glow" aria-hidden="true"><i></i></span><img id="zimg" alt="" aria-hidden="true"><canvas id="zcan" aria-hidden="true"></canvas></h2>
+    <p class="close__lede">The trailer runs 1:58. It plays on the film's site.</p>
+    <div class="close__ctas">
+      <a class="cta" href="../#trailer"><canvas class="cta__plasma" aria-hidden="true"></canvas><span class="cta__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="16" rx="5.2" ry="4.4"/><ellipse cx="5.5" cy="10.5" rx="2.2" ry="2.8"/><ellipse cx="9.5" cy="6.5" rx="2.2" ry="2.9"/><ellipse cx="14.5" cy="6.5" rx="2.2" ry="2.9"/><ellipse cx="18.5" cy="10.5" rx="2.2" ry="2.8"/></svg></span><span class="cta__label">Watch the trailer</span><i class="cta__boop" aria-hidden="true"></i></a>
+    </div>
+    <p class="close__bio">Ryder Rises is by Yoni Levy: writer, content creator and designer, a builder and product person who researches AI for media creation. Father of Libi and Nuri, who have seen every episode.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <img src="../assets/humblin-96.webp" alt="" width="40" height="40">
+  <div>
+    <p>Ryder Rises is an unsanctioned, non-commercial parody. PAW Patrol and all related characters are owned by Spin Master Ltd. and creator Keith Chapman. Not affiliated with or endorsed by Spin Master, Nickelodeon or Paramount.</p>
+    <p>© 2026 Yoni Levy · A Humblin Pictures release · <a class="foot__link" href="https://www.youtube.com/@humblinpictures" target="_blank" rel="noopener">Humblin Pictures on YouTube</a> · Visits are counted with Google Analytics. No ads, no data sold.</p>
+  </div>
+</footer>
+
+<!-- a trailer button that floats on every screen -->
+<div class="dock cs-dock is-on" id="dock">
+  <a class="cta cta--dock" href="../#trailer"><canvas class="cta__plasma" aria-hidden="true"></canvas><span class="cta__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="16" rx="5.2" ry="4.4"/><ellipse cx="5.5" cy="10.5" rx="2.2" ry="2.8"/><ellipse cx="9.5" cy="6.5" rx="2.2" ry="2.9"/><ellipse cx="14.5" cy="6.5" rx="2.2" ry="2.9"/><ellipse cx="18.5" cy="10.5" rx="2.2" ry="2.8"/></svg></span><span class="cta__label">Watch the trailer</span><i class="cta__boop" aria-hidden="true"></i></a>
+</div>
+
+</body>
+</html>
