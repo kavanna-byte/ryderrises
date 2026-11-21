@@ -159,9 +159,9 @@
   // ---------- the close: the title drawn once, then handed to the electricity (as on the film's site) ----------
   const ztitle = document.getElementById('ztitle');
   if (ztitle) document.fonts.load('700 200px "Archivo"').then(() => {
-    const cv = document.createElement('canvas'), W = 1800, H = 760, g = cv.getContext('2d'); cv.width = W; cv.height = H;
+    const cv = document.createElement('canvas'), W = 1800, H = 680, g = cv.getContext('2d'); cv.width = W; cv.height = H;
     g.fillStyle = '#f3eefc'; g.textAlign = 'center'; g.font = '700 extra-condensed 330px "Archivo"';
-    g.fillText('SEE IT', W / 2, 330); g.fillText('MOVE.', W / 2, 690);
+    g.fillText('SEE IT', W / 2, 330); g.fillText('MOVE.', W / 2, 610);  // lines sit closer than on the film's site (Yoni, 20 Nov)
     const url = cv.toDataURL('image/png'), img = document.getElementById('zimg');
     ztitle.style.setProperty('--m', `url(${url})`);
     img.onload = () => { if (!reduced && typeof Electric !== 'undefined') Electric(document.getElementById('zcan'), img, { pad: 0.14, color: [176, 112, 255], hot: [252, 248, 255], rate: 1.6,

@@ -340,3 +340,6 @@ body:has(.cs-dock) .close { padding-bottom: calc(var(--section) + 72px); }
 .cs-fold__pm::before, .cs-fold__pm::after { content: ""; position: absolute; left: 0; top: 6px; width: 14px; height: 2px; background: var(--violet-hot); transition: transform .3s; }
 .cs-fold__pm::after { transform: rotate(90deg); }
 .cs-fold[open] .cs-fold__pm::after { transform: rotate(0deg); }
+
+/* the close title: tighter line gap, so the box is shorter too */
+.close .ztitle { aspect-ratio: 1800 / 680; }

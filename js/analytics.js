@@ -74,4 +74,5 @@
   /* ---------- the two things a visitor can take away ---------- */
   document.querySelectorAll("a[download]").forEach(a => a.addEventListener("click", () => track("poster_download", { file_name: a.getAttribute("download") })));
   document.querySelectorAll('.close a.cta[href^="http"]').forEach(a => a.addEventListener("click", () => track("contact_click", { destination: "linkedin" })));
+  document.querySelectorAll('a[href$="case-study/"]').forEach(a => a.addEventListener("click", () => track("case_study_click", { placement: a.dataset.place || "page" })));
 })();

@@ -861,3 +861,48 @@ body { caret-color: var(--violet-hot); }
 /* v7.0 speed: the hero poster is the video's background, so phones get the 960 and desktops the 1920 (a poster attribute takes one file only) */
 .hero__video { background: #0b0a10 url(../assets/hero-poster.webp?v=2) center / cover no-repeat; }
 @media (max-width: 700px) { .hero__video { background-image: url(../assets/hero-poster-960.webp); } }
+
+/* v7.3 (20 Nov): the making-of is shorter here; the rest moved to the case study.
+   The way in is a 90s police-procedural case file: a purple Humblin folder on the desk. All CSS, no images but the film's own. */
+.casefile { margin-top: var(--s7); padding-top: var(--s7); border-top: 1px solid var(--line); display: grid; grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr); gap: clamp(32px, 4vw, 80px); align-items: center; }
+.casefile__copy { display: grid; justify-items: start; }
+.casefile .tagline { margin: 0 0 var(--s3); color: var(--violet-hot); text-shadow: 0 0 18px rgba(155,92,255,.6); }
+.casefile__title { margin: 0 0 var(--s4); max-width: 11em; font: 700 clamp(40px, 4.6vw, 78px)/.9 "Archivo"; font-stretch: 62%; letter-spacing: -.01em; text-transform: uppercase; color: var(--bone); }
+.casefile__title em { font-style: normal; color: var(--violet-hot); text-shadow: 0 0 28px rgba(155,92,255,.75), 0 0 2px rgba(255,255,255,.6); }
+.casefile .body { margin: 0 0 var(--s5); max-width: 24em; }
+[data-btn="14"] .casefile .cta { font-size: 22px; padding: 15px 30px 15px 16px; gap: 12px; }
+[data-btn="14"] .casefile .cta__icon { width: 30px; height: 30px; }
+.casefile__log { list-style: none; margin: 0 0 var(--s5); padding: 0; display: flex; flex-wrap: wrap; gap: var(--s2) var(--s5); }
+.casefile__log li { padding-top: 12px; border-top: 1px solid rgba(201,162,255,.35); }
+.casefile__log i { display: block; margin-bottom: 6px; font: 700 11px/1.2 "Courier New", Courier, ui-monospace, monospace; font-style: normal; letter-spacing: .14em; text-transform: uppercase; color: var(--ash); }
+.casefile__log b { font: 700 18px/1.2 "Courier New", Courier, ui-monospace, monospace; color: var(--bone); }
+.casefile .body { margin-bottom: var(--s4); }
+.casefile__desk { display: block; text-decoration: none; }
+/* the folder is a photographed object (made for this page, transparent background); the print on it is live type */
+.cf { position: relative; display: block; transition: transform .7s var(--ease); filter: drop-shadow(0 30px 40px rgba(0,0,0,.55)); }
+.casefile__desk:hover .cf { transform: translateY(-6px) scale(1.008); }
+.cf__img { display: block; width: 100%; height: auto; }
+/* the investigation board runs full width, the copy sits under it in two columns */
+.casefile--board { grid-template-columns: 1fr; gap: clamp(28px, 3.4vw, 56px); }
+.casefile--board .casefile__desk { order: -1; max-width: 1180px; width: 100%; margin: 0 auto; }
+.casefile--board .casefile__copy { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(32px, 5vw, 96px); align-items: start; max-width: 1180px; width: 100%; margin: 0 auto; }
+.casefile--board .casefile__copy > .tagline { grid-column: 1; grid-row: 1; }
+.casefile--board .casefile__title { grid-column: 1; grid-row: 2 / span 3; max-width: 9.5em; }
+.casefile--board .casefile__copy > .body { grid-column: 2; grid-row: 2; }
+.casefile--board .casefile__log { grid-column: 2; grid-row: 3; }
+.casefile--board .casefile__copy > .cta { grid-column: 2; grid-row: 4; }
+.csband__note { margin-top: var(--s6); }
+@media (max-width: 900px) {
+  .casefile { grid-template-columns: 1fr; gap: var(--s5); padding-top: var(--s6); }
+  .casefile__desk { margin: 0 -4px; order: -1; }
+  .casefile--board .casefile__copy { grid-template-columns: 1fr; }
+  .casefile--board .casefile__copy > * { grid-column: 1 !important; grid-row: auto !important; }
+  .casefile--board .casefile__desk { margin: 0 -8px; width: auto; }
+}
+@media (prefers-reduced-motion: reduce) { .cf { transition: none; } }
+/* six links now: keep each on one line, and fold the menu away a little earlier so it never crowds */
+.nav__links a { white-space: nowrap; }
+@media (max-width: 1240px) { .nav__links { display: none; } }
+
+/* v7.3: the close title, lines closer together (the canvas is 1800 x 680 now) */
+.ztitle { aspect-ratio: 1800 / 680; }
