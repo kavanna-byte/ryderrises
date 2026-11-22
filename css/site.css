@@ -872,6 +872,13 @@ body { caret-color: var(--violet-hot); }
 .casefile .body { margin: 0 0 var(--s5); max-width: 24em; }
 [data-btn="14"] .casefile .cta { font-size: 22px; padding: 15px 30px 15px 16px; gap: 12px; }
 [data-btn="14"] .casefile .cta__icon { width: 30px; height: 30px; }
+/* v7.4: the case study tag burns evidence yellow, the colour of the notes on the board, and carries a magnifying glass */
+[data-btn="14"] .cta--amber { background: #2a1c02; color: #fff8d6; text-shadow: 0 3px 0 #6b4a00;
+  box-shadow: inset 0 3px 0 rgba(255,255,255,.55), inset 0 -6px 0 rgba(120,80,0,.55), 0 0 0 4px #2a1c02, 0 0 0 7px #ffe45c, 0 10px 0 7px #1c1201, 0 18px 30px rgba(0,0,0,.6); }
+[data-btn="14"] .cta--amber:hover { box-shadow: inset 0 3px 0 rgba(255,255,255,.55), inset 0 -6px 0 rgba(120,80,0,.55), 0 0 0 4px #2a1c02, 0 0 0 7px #fff3a8, 0 10px 0 7px #1c1201, 0 0 60px 10px rgba(255,214,60,.55); }
+[data-btn="14"] .cta--amber .cta__icon { box-shadow: inset 0 -3px 0 #ffe9a3; }
+[data-btn="14"] .cta--amber .cta__icon svg { fill: none; stroke: #b06f00; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+[data-btn="14"] .cta--amber .cta__boop { border-color: #fff3a8; }
 .casefile__log { list-style: none; margin: 0 0 var(--s5); padding: 0; display: flex; flex-wrap: wrap; gap: var(--s2) var(--s5); }
 .casefile__log li { padding-top: 12px; border-top: 1px solid rgba(201,162,255,.35); }
 .casefile__log i { display: block; margin-bottom: 6px; font: 700 11px/1.2 "Courier New", Courier, ui-monospace, monospace; font-style: normal; letter-spacing: .14em; text-transform: uppercase; color: var(--ash); }

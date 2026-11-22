@@ -314,7 +314,7 @@
   root.dataset.btn = "14"; // Storm Tag: the toy badge with the storm alive inside it
   // plasma inside the capsule (4) and the badge (1+4)
   $$(".cta").forEach(btn => {
-    const rose = btn.classList.contains("cta--rose"), base = rose ? "#3a0a32" : "#1a0838", hue = rose ? ["255,160,220", "255,72,176"] : ["201,162,255", "120,60,255"]; // the share tag burns pink
+    const rose = btn.classList.contains("cta--rose"), amber = btn.classList.contains("cta--amber"), base = rose ? "#3a0a32" : amber ? "#2a1c02" : "#1a0838", hue = rose ? ["255,160,220", "255,72,176"] : amber ? ["255,226,110", "236,150,10"] : ["201,162,255", "120,60,255"]; // the share tag burns pink, the case study tag burns evidence yellow
     const c = $(".cta__plasma", btn), x = c.getContext("2d"); let t = Math.random() * 10, boost = 0, w = 0, h = 0;
     const size = () => { const r = btn.getBoundingClientRect(); w = c.width = Math.max(1, r.width * 2); h = c.height = Math.max(1, r.height * 2); };
     size(); addEventListener("resize", size); btn._size = size;
