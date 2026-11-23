@@ -417,17 +417,17 @@
   }
 
 
-  /* ---------- phones: a trailer button that waits in the thumb zone ---------- */
+  /* ---------- a trailer button that floats at the bottom of the screen, on phones and desktop (v7.5) ---------- */
   const dock = $("#dock"); let dockHeld = false;
   function dockOff(v) { dockHeld = v; dockSync(); }
   function dockSync() {
     if (!dock) return;
     const inView = el => { if (!el) return false; const r = el.getBoundingClientRect(); return r.bottom > innerHeight * 0.15 && r.top < innerHeight * 0.85; };
-    const on = !fine && !dockHeld && theatre.hidden && !inView($(".hero")) && !inView($("#trailer")) && !inView($("#contact"));
+    const on = !dockHeld && theatre.hidden && !inView($(".hero")) && !inView($("#trailer")) && !inView($("#contact"));
     dock.classList.toggle("is-on", on); dock.setAttribute("aria-hidden", on ? "false" : "true");
     $(".cta", dock).tabIndex = on ? 0 : -1;
   }
-  if (!fine) { addEventListener("scroll", dockSync, { passive: true }); addEventListener("resize", dockSync); }
+  addEventListener("scroll", dockSync, { passive: true }); addEventListener("resize", dockSync);
 
   /* ---------- theatre: custom player ---------- */
   { // v7.0 speed: the trailer section's poster loads only after the page (it is below the fold): the 960 on phones, the full one on wide screens

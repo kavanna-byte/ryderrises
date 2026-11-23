@@ -793,8 +793,7 @@ body { caret-color: var(--violet-hot); }
    3 a trailer button in the thumb zone · 4 the poster edge to edge · 5 turn the phone · 6 the badge follows the tilt
    ===================================================================== */
 /* 3 */
-.dock { position: fixed; left: 0; right: 0; bottom: calc(22px + env(safe-area-inset-bottom)); z-index: 65; display: none; justify-content: center; pointer-events: none; transform: translateY(170%); transition: transform .5s cubic-bezier(.34,1.56,.64,1); }
-@media (hover: none), (pointer: coarse) { .dock { display: flex; } }
+.dock { position: fixed; left: 0; right: 0; bottom: calc(22px + env(safe-area-inset-bottom)); z-index: 65; display: flex; justify-content: center; pointer-events: none; transform: translateY(170%); transition: transform .5s cubic-bezier(.34,1.56,.64,1); }
 .dock.is-on { transform: none; }
 .dock .cta { pointer-events: auto; }
 [data-btn="14"] .dock .cta { font-size: 19px; padding: 11px 22px 11px 11px; gap: 10px;
