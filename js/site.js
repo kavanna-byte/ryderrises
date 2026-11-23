@@ -429,6 +429,18 @@
   }
   addEventListener("scroll", dockSync, { passive: true }); addEventListener("resize", dockSync);
 
+  /* ---------- the case study board: the room goes dark and the pointer is the torch (v7.6, mouse only) ---------- */
+  const desk = $(".casefile__desk");
+  if (desk && fine) {
+    const cf = $(".cf", desk), base = $(".cf__img", desk); let lit = null;
+    desk.addEventListener("pointerenter", () => {
+      if (!lit) { lit = base.cloneNode(); lit.classList.add("cf__lit"); lit.removeAttribute("loading"); lit.setAttribute("aria-hidden", "true"); cf.appendChild(lit); }
+      desk.classList.add("is-torch");
+    });
+    desk.addEventListener("pointerleave", () => desk.classList.remove("is-torch"));
+    desk.addEventListener("pointermove", e => { const r = cf.getBoundingClientRect(); cf.style.setProperty("--mx", (e.clientX - r.left) / r.width * 100 + "%"); cf.style.setProperty("--my", (e.clientY - r.top) / r.height * 100 + "%"); });
+  }
+
   /* ---------- theatre: custom player ---------- */
   { // v7.0 speed: the trailer section's poster loads only after the page (it is below the fold): the 960 on phones, the full one on wide screens
     const sv = $(".trailer__video");

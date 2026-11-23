@@ -888,12 +888,18 @@ body { caret-color: var(--violet-hot); }
 .cf { position: relative; display: block; transition: transform .7s var(--ease); filter: drop-shadow(0 30px 40px rgba(0,0,0,.55)); }
 .casefile__desk:hover .cf { transform: translateY(-6px) scale(1.008); }
 .cf__img { display: block; width: 100%; height: auto; }
+/* v7.6: hover turns the lights off on the board, and the pointer is a torch */
+.cf__img { transition: filter .45s var(--ease); }
+.casefile__desk.is-torch .cf__img:not(.cf__lit) { filter: brightness(.22) saturate(.6); }
+.cf__lit { position: absolute; inset: 0; height: 100%; pointer-events: none; opacity: 0; transition: opacity .3s; filter: brightness(1.12);
+  -webkit-mask: radial-gradient(circle 190px at var(--mx, 50%) var(--my, 50%), #000 35%, transparent 100%); mask: radial-gradient(circle 190px at var(--mx, 50%) var(--my, 50%), #000 35%, transparent 100%); }
+.casefile__desk.is-torch .cf__lit { opacity: 1; }
 /* the investigation board runs full width, the copy sits under it in two columns */
 .casefile--board { grid-template-columns: 1fr; gap: clamp(28px, 3.4vw, 56px); }
 .casefile--board .casefile__desk { order: -1; max-width: 1180px; width: 100%; margin: 0 auto; }
 .casefile--board .casefile__copy { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(32px, 5vw, 96px); align-items: start; max-width: 1180px; width: 100%; margin: 0 auto; }
 .casefile--board .casefile__copy > .tagline { grid-column: 1; grid-row: 1; }
-.casefile--board .casefile__title { grid-column: 1; grid-row: 2 / span 3; max-width: 9.5em; }
+.casefile--board .casefile__title { grid-column: 1; grid-row: 2 / span 3; max-width: 9.5em; text-wrap: balance; }
 .casefile--board .casefile__copy > .body { grid-column: 2; grid-row: 2; }
 .casefile--board .casefile__log { grid-column: 2; grid-row: 3; }
 .casefile--board .casefile__copy > .cta { grid-column: 2; grid-row: 4; }
