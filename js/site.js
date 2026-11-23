@@ -59,6 +59,7 @@
     try { sessionStorage.setItem("rr-band", "1"); } catch (e) {}
     band.remove();                                  // a cut, not a fade
     document.body.classList.remove("is-loading");
+    document.dispatchEvent(new Event("rr:cut"));
     startVideo();
     lenis && lenis.start();
     heroIn();
@@ -83,15 +84,17 @@
   if (!hasGsap) { document.body.classList.remove("is-loading"); return; }
 
   /* ---------- the logo: live light + 3D tilt ---------- */
+  // v7.4 speed: nothing animates behind the green band; the hero's light, arcs and plasma start at the cut
+  const afterBand = fn => (done ? fn() : document.addEventListener("rr:cut", fn, { once: true }));
   const logo = $("#logo3d"), heroLoops = [];          // endless tweens, paused while the hero is off screen
   if (logo && !reduced) {
     const aura = $(".logo3d__aura", logo), core = $(".logo3d__core", logo);
     heroLoops.push(gsap.to(aura, { opacity: 0.55, scale: 1.04, duration: 2.6, ease: "sine.inOut", yoyo: true, repeat: -1 }));
     heroLoops.push(gsap.to(core, { scale: 1.08, duration: 3.4, ease: "sine.inOut", yoyo: true, repeat: -1, transformOrigin: "50% 50%" }));
     // real electricity: arcs crawl the silhouette, tendrils shoot off it, a strike from the sky now and then
-    if (typeof Electric !== "undefined") Electric($("#arcs"), $(".logo3d__img", logo), { pad: 0.22, color: [176, 112, 255], hot: [252, 248, 255], rate: 1.5, onStrike() {
+    if (typeof Electric !== "undefined") afterBand(() => Electric($("#arcs"), $(".logo3d__img", logo), { pad: 0.22, color: [176, 112, 255], hot: [252, 248, 255], rate: 1.5, onStrike() {
       logo.classList.add("is-strike"); setTimeout(() => logo.classList.remove("is-strike"), 170);
-    } });
+    } }));
     if (fine) {
       const rx = gsap.quickTo(logo, "rotationX", { duration: 0.9, ease: "power3" }), ry = gsap.quickTo(logo, "rotationY", { duration: 0.9, ease: "power3" });
       $(".hero").addEventListener("mousemove", e => { ry((e.clientX / innerWidth - 0.5) * 16); rx(-(e.clientY / innerHeight - 0.5) * 10); });
@@ -127,6 +130,8 @@
       }
     }
   }
+
+  if (!done) { heroLoops.forEach(t => t.pause()); afterBand(() => heroLoops.forEach(t => t.resume())); }
 
   /* ---------- hero: pause the loop off-screen, parallax out ---------- */
   ScrollTrigger.create({ trigger: ".hero", start: "top top", end: "bottom top",
@@ -298,7 +303,8 @@
 
   /* ---------- the close: draw the title once, then hand it to the electricity ---------- */
   const ztitle = $("#ztitle");
-  if (ztitle) document.fonts.load('700 200px "Archivo"').then(() => {
+  // v7.4 speed: the canvas and its PNG are made when the close comes near, not while the page loads
+  const zDraw = () => document.fonts.load('700 200px "Archivo"').then(() => {
     const cv = document.createElement("canvas"), W = 1800, H = 680, g = cv.getContext("2d"); cv.width = W; cv.height = H;
     g.fillStyle = "#f3eefc"; g.textAlign = "center"; g.font = '700 extra-condensed 330px "Archivo"';
     g.fillText("ONE CALL", W / 2, 330); g.fillText("LEFT.", W / 2, 610);
@@ -308,6 +314,10 @@
       onStrike() { ztitle.classList.add("is-strike"); setTimeout(() => ztitle.classList.remove("is-strike"), 170); } }); };
     img.src = url;
   });
+  if (ztitle) {
+    if ("IntersectionObserver" in window) { const zo = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { zo.disconnect(); zDraw(); } }, { rootMargin: "150% 0px" }); zo.observe(ztitle); }
+    else zDraw();
+  }
 
   /* ---------- the call to action: Storm Tag ---------- */
   const root = document.documentElement;
@@ -321,9 +331,9 @@
     btn._boost = v => (boost = Math.min(1, boost + v));
     // the plasma only animates while its button is on screen and the tab is visible (an off-screen loop still costs a phone its CPU)
     let onScreen = true, looping = false;
-    const wake = () => { if (!looping && onScreen && !document.hidden) { looping = true; requestAnimationFrame(plasma); } };
+    const wake = () => { if (done && !looping && onScreen && !document.hidden) { looping = true; requestAnimationFrame(plasma); } };
     if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; wake(); }).observe(btn);
-    document.addEventListener("visibilitychange", wake);
+    document.addEventListener("visibilitychange", wake); document.addEventListener("rr:cut", wake);
     wake();
     function plasma() {
       if (!onScreen || document.hidden) { looping = false; return; }
