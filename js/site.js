@@ -76,7 +76,7 @@
       .set(".tagline .cut", { visibility: "hidden" }, 0)
       .set(".tagline .cut:nth-child(1)", { visibility: "visible" }, 0.5)
       .set(".tagline .cut:nth-child(2)", { visibility: "visible" }, 0.95)
-      .fromTo(".hero__actions > *", { yPercent: 120, clipPath: "inset(0 0 100% 0)" }, { yPercent: 0, clipPath: "inset(0 0 0% 0)", duration: 1, stagger: 0.12, clearProps: "clipPath" }, 0.6)
+      .fromTo(".hero__actions > *", { yPercent: 120, clipPath: "inset(-40px -40px 100% -40px)" }, { yPercent: 0, clipPath: "inset(-40px -40px -40px -40px)", duration: 1, stagger: 0.12, clearProps: "clipPath" }, 0.6)
       .from(".nav", { yPercent: -120, duration: 1 }, 0.8);
   }
 
